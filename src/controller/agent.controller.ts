@@ -93,7 +93,7 @@ export let updateAgent = async (req, res, next) => {
                         agentBusinessLogo: agentDetails.agentBusinessLogo,
                         countryInterested: agentDetails.countryInterested
                     },
-                    $andToSet: {
+                    $addToSet: {
                         address: agentDetails.address,
                         staffDetail: agentDetails.staffDetail
                     }
