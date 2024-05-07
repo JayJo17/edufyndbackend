@@ -1,0 +1,74 @@
+import * as mongoose from 'mongoose'
+
+export interface StudentDocument extends mongoose.Document {
+    _id?: any;
+    studentCode?: string;
+    source?: string[];
+    name?: string;
+    passportNo?: string;
+    expiryDate?: Date;
+    dob?: Date;
+    citizenship?: string;
+    gender?: any[];
+    email?: string;
+    contactNumber?: string;
+    primaryNumber?: string;
+    whatsAppNumber?: string; // Same as primary number if yes
+    highestQualification?: string;
+    degreeName?: string;
+    academicYear?: string;
+    yearPassed?: number;
+    institution?: string;
+    percentage?: number;
+    doHaveAnyEnglishLanguageTest?: boolean;
+    englishTestType?: any[]; // Only sEnglishLanguageTest is true
+    testScore?: number; // Only sEnglishLanguageTest is true
+    dateOfTest?: Date; // Only sEnglishLanguageTest is true
+    desiredCountry?: string[];
+    desiredUniversity?: string;
+    desiredCourse?: string;
+    workExperience?: number; // In years
+    hasVisaRejections?: boolean;
+    anyVisaRejections?: string; // Only sVisaRejections is true
+    hasTravelHistory?: boolean;
+    doYouHaveTravelHistory?: string; // Only sTravelHistory is true
+    finance?: any[];
+    password?: string;
+
+};
+
+const studentSchema =new mongoose.Schema({
+    _id: { type: mongoose.Types.ObjectId, auto: true },
+    studentCode : {type: String},
+    source: { type: String},
+    name: {type: String},
+    passportNo: {type: String},
+    expiryDate: {type: Date},
+    dob: {type: Date},
+    citizenship : {type: String},
+    gender : {type: String,},
+    email: {type: String},
+    primaryNumber: {type: String},
+    whatsAppNumber: {type: String},
+    highestQualification :{type: String},
+    degreeName: {type: String, },
+    academicYear: {type: String },
+    yearPassed: {type: String },
+    institution: {type: String },
+    percentage: {type: String },
+    doHaveAnyEnglishLanguageTest: {type: Boolean },
+    englishTestType: {type: String},
+      testScore: {type: String},
+      dateOfTest: {type: String },
+      desiredCountry:{type: String },
+      desiredUniversity:{type: String}, //(Optional)
+      desiredCourse:{type: String}, //(Optional)
+      workExperience: {type: String},
+      anyVisaRejections:{type: String}, // (Yes/No) If ‘Yes’ state reason (Text Box)
+      doYouHaveTravelHistory: {type: Boolean}, // (Yes/No) If ‘Yes’ state reason (Text Box)
+      finance:{type: String},
+      password: {type: String}
+})
+
+
+export const Student = mongoose.model("Student", studentSchema)
