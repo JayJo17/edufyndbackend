@@ -65,7 +65,7 @@ export let saveStudent = async (req, res, next) => {
 
 
 export let updateStudent = async (req, res, next) => {
-    console.log("update jo")
+
     const errors = validationResult(req);
     console.log()
     if (errors.isEmpty()) {
@@ -73,7 +73,7 @@ export let updateStudent = async (req, res, next) => {
 
             const studentDetails: StudentDocument = req.body;
             const student = await Student.findOne({ $and: [{ isDeleted: false }, { _id: { $ne: studentDetails._id } }, { email: studentDetails.email }] });
-            console.log("up",student)
+          
             if (!student) {
                 const updateStudent = new Student(studentDetails);
            
