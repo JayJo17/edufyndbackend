@@ -8,7 +8,7 @@ export interface AgentDocument extends mongoose.Document {
     address?:any;
     email?: string;
     // contactNumber?: string;
-    primaryNumber?: string;
+    mobileNumber?: string;
     whatsAppNumber?: string;
     bankDetail?: string;
     panNumberIndividual?: string;

@@ -28,6 +28,7 @@ export let saveStudent = async (req, res, next) => {
 
             if (!student) {
                 req.body.password = await encrypt(req.body.password)
+                req.body.confirmPassword = await encrypt(req.body.confirmPassword)
                 const studentDetails: StudentDocument = req.body;
                 // studentDetails..createdOn = new Date();
 
