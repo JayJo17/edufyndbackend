@@ -7,13 +7,13 @@ const router:Router=Router();
 
 
 
-router.get('/', //get all users
+router.get('/get', //get all users
     basicAuthUser,
      checkSession,
     getAllStudent
 );
 
-router.post('/save', 
+router.post('/', 
          checkRequestBodyParams('email'),
         saveStudent
 );

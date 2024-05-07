@@ -15,10 +15,7 @@ export interface AgentDocument extends mongoose.Document {
     panNumberCompany?: string; // If applicable
     gstn?: string; // Optional
     inc?: string; // If applicable
-    staffDetail?: {
-        name: string;
-        number: string;
-    };
+    staffDetail?: any;
     // agentPayout?: string[]; // List of payouts
     agentsCommission?: number; // Will be calculated based on the University Commission & Agent Payout
     agentBusinessLogo?: string; // Optional
@@ -32,8 +29,8 @@ export interface AgentDocument extends mongoose.Document {
 const agentSchema = new mongoose.Schema({
      //•Agent ID (Auto Generated)
      _id: { type: mongoose.Types.ObjectId, required: true, auto: true },
-     name: { type: String, required: true },
-     businessName: { type: String, required: true },
+     name: { type: String},
+     businessName: { type: String},
      address: [{ 
              streetAddress: { type: String },
              city: { type: String },
@@ -42,8 +39,8 @@ const agentSchema = new mongoose.Schema({
              pinCode: { type: String }
                }],
      email: { type: String, required: true},
-     primaryNumber: {type: String, required: true},
-    whatsAppNumber: {type: String, required: true},
+     mobileNumber: {type: String, required: true},
+    whatsAppNumber: {type: String},
      bankDetail: {type: String },
      panNumberIndividual: { type: String },
      panNumberCompany: { type: String},   //(if applicable)
@@ -57,7 +54,8 @@ const agentSchema = new mongoose.Schema({
      agentsCommission: {type: Number},  // (Will be calculated based on the University Commission & Agent Payout) Decimal value to the nearest – To be viewed only for agents
      agentBusinessLogo: {type: String},  // (Optional)
      countryInterested: {type: String},
-     password: {type: String}
+     password: {type: String},
+     confirmPassword:  {type: String}
 })
 
 

@@ -48,7 +48,7 @@ const studentSchema =new mongoose.Schema({
     citizenship : {type: String},
     gender : {type: String,},
     email: {type: String},
-    primaryNumber: {type: String},
+    mobileNumber: {type: String},
     whatsAppNumber: {type: String},
     highestQualification :{type: String},
     degreeName: {type: String, },
@@ -67,7 +67,8 @@ const studentSchema =new mongoose.Schema({
       anyVisaRejections:{type: String}, // (Yes/No) If ‘Yes’ state reason (Text Box)
       doYouHaveTravelHistory: {type: Boolean}, // (Yes/No) If ‘Yes’ state reason (Text Box)
       finance:{type: String},
-      password: {type: String}
+      password: {type: String},
+      confirmPassword:  {type: String}
 })
 
 
