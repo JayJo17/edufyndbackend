@@ -28,11 +28,11 @@ export interface UniversityDocument extends mongoose.Document {
 const universitySchema = new mongoose.Schema({
     universityName:{type: String,required:true},
     country:{ type:String, required: true},
-    campus:{state:{type:String,required:true},city:{type:String,required: true}},
+    campus:[{state:{type:String,required:true},city:{type:String,required: true}}],
     ranking: {type: String,required: true},
     averageFees:{type:String},
     popularCategory: {type:String},
-    admissionRequirement:{type:String,required: true},
+    admissionRequirement:{type:String},
     offerTAT:{type:String},
     commission:{
         paymentMethod:{type: String,},

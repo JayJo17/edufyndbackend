@@ -18,9 +18,10 @@ router.post('/',
         saveStudent
 );
 
-router.put('/update/:id', //update user
+router.put('/update', //update user
     basicAuthUser,
     checkSession,
+    checkQuery('_id'),
     checkRequestBodyParams('_id'),
     updateStudent  
 );

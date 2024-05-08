@@ -30,7 +30,6 @@ export let saveStudent = async (req, res, next) => {
                 req.body.password = await encrypt(req.body.password)
                 req.body.confirmPassword = await encrypt(req.body.confirmPassword)
                 const studentDetails: StudentDocument = req.body;
-                // studentDetails..createdOn = new Date();
 
                 const createData = new Student(studentDetails);
                 let insertData = await createData.save();
@@ -73,8 +72,9 @@ export let updateStudent = async (req, res, next) => {
         try {  
 
             const studentDetails: StudentDocument = req.body;
-            const student = await Student.findOne({ $and: [{ isDeleted: false }, { _id: { $ne: studentDetails._id } }, { email: studentDetails.email }] });
-          
+           const student = await Student.findOne({ $and: [{ isDeleted: false }, { _id: { $ne: studentDetails._id } }, { email: studentDetails.email }] });
+            // const student = await Student.findOne({ $and: [{ isDeleted: false }, { email: studentDetails.email }] });
+            console.log("sekar", student)
             if (!student) {
                 const updateStudent = new Student(studentDetails);
            
@@ -111,6 +111,7 @@ export let updateStudent = async (req, res, next) => {
                     }
                 });
                 const userData = await Student.findOne({ _id: studentDetails._id });
+      
                 response(req, res, activity, 'Level-3', 'Update-Student', true, 200, userData, clientError.success.updateSuccess);
 
             } else {
