@@ -20,6 +20,16 @@ export let getAllAgent = async (req, res, next) => {
 };
 
 
+export let getSingleAgent = async (req, res, next) => {
+    try {
+        const agent = await Agent.findOne({ _id: req.query._id });
+        response(req, res, activity, 'Level-1', 'Get-Single-Agent', true, 200, agent, clientError.success.fetchedSuccessfully);
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-Single-Agent', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+}
+
+
 export let createAgent = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {

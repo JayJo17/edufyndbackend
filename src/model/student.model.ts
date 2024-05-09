@@ -34,6 +34,10 @@ export interface StudentDocument extends mongoose.Document {
     doYouHaveTravelHistory?: string; // Only sTravelHistory is true
     finance?: any[];
     password?: string;
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+    linkedIn?: string;
 
 };
 
@@ -87,7 +91,11 @@ const studentSchema =new mongoose.Schema({
       doYouHaveTravelHistory: {type: Boolean}, // (Yes/No) If ‘Yes’ state reason (Text Box)
       finance:{type: String},
       password: {type: String},
-      confirmPassword:  {type: String}
+      confirmPassword:  {type: String},
+      twitter: {type: String},
+      instagram: {type: String},
+      facebook: {type: String},
+      linkedIn: {type: String}
 })
 
 

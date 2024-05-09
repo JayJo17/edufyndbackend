@@ -76,7 +76,7 @@ export let saveStudent = async (req, res, next) => {
 export let updateStudent = async (req, res, next) => {
 
     const errors = validationResult(req);
-    console.log()
+
     if (errors.isEmpty()) {
         try {  
 
@@ -116,7 +116,11 @@ export let updateStudent = async (req, res, next) => {
                         workExperience: studentDetails.workExperience,
                         anyVisaRejections: studentDetails.anyVisaRejections, 
                         doYouHaveTravelHistory: studentDetails.doYouHaveTravelHistory, 
-                        finance: studentDetails.finance
+                        finance: studentDetails.finance,
+                        twitter:studentDetails .twitter,
+                        facebook: studentDetails.facebook,
+                        instagram: studentDetails.instagram,
+                        linkedIn: studentDetails.linkedIn
                     }
                 });
                 const userData = await Student.findOne({ _id: studentDetails._id });
