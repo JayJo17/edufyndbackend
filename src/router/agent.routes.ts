@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import { createAgent,createStudentByAgent, updateAgent } from '../controller/agent.controller';
+import { createContact} from '../controller/contact.controller';
 import { checkQuery, checkRequestBodyParams } from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -10,7 +11,7 @@ router.post('/',
          checkRequestBodyParams('email'),
          createAgent
 );
-
+router.post('/contact', createContact);
 
 router.put('/create-student', //create student by agent
     basicAuthUser,

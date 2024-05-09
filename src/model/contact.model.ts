@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose'
 
 
-export interface ContactDoument extends mongoose.Document{
+export interface ContactDocument extends mongoose.Document{
     name?: string;
     email?: string;
     subject?: string;
@@ -11,5 +11,9 @@ export interface ContactDoument extends mongoose.Document{
 
 const contactSchema = new mongoose.Schema({
     name: {type: String},
-    email: {type: String}
+    email: {type: String},
+    subject: {type: String},
+    message: {type: String}
 })
+
+export const Contact = mongoose.model("Contact", contactSchema)
