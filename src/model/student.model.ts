@@ -56,10 +56,29 @@ const studentSchema =new mongoose.Schema({
     yearPassed: {type: String },
     institution: {type: String },
     percentage: {type: String },
-    doHaveAnyEnglishLanguageTest: {type: Boolean },
-    englishTestType: {type: String},
-      testScore: {type: String},
-      dateOfTest: {type: String },
+    doHaveAnyEnglishLanguageTest: {type: Boolean,required: true },
+    englishTestType: {
+        type: String,
+        enum: ['IELTS', 'PTE', 'TOEFL', 'Duolingo'],
+        required: function() {
+          return !this.doHaveAnyEnglishLanguageTest || !!this.testScore;  // Only required if doHaveAnyEnglishLanguageTest is true
+        }
+      },
+      testScore: {
+        type: String,
+        required: function() {
+            return this.doHaveAnyEnglishLanguageTest === true; // Test score is required only if doHaveAnyEnglishLanguageTest is true
+        },
+        validate: {
+            validator: function(value) {
+                return this.doHaveAnyEnglishLanguageTest || !value; // Test score should not be provided if doHaveAnyEnglishLanguageTest is false
+            },
+            message: 'Test score cannot be provided if doHaveAnyEnglishLanguageTest is false'
+        }
+    },
+      dateOfTest: {type: String, required: function() {
+        return this.doHaveAnyEnglishLanguageTest === true; 
+      } },
       desiredCountry:{type: String },
       desiredUniversity:{type: String}, //(Optional)
       desiredCourse:{type: String}, //(Optional)

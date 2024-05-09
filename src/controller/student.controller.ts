@@ -19,6 +19,15 @@ export let getAllStudent = async (req, res, next) => {
 };
 
 
+export let getSingleStudent = async (req, res, next) => {
+    try {
+        const student = await Student.findOne({ _id: req.query._id });
+        response(req, res, activity, 'Level-1', 'Get-Single-Student', true, 200, student, clientError.success.fetchedSuccessfully);
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-Single-Student', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+}
+
 export let saveStudent = async (req, res, next) => {
     console.log("Register ")
     const errors = validationResult(req);
@@ -124,6 +133,43 @@ export let updateStudent = async (req, res, next) => {
         response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
     }
 }
+
+
+
+//////
+
+
+
+// export let updateStudent = async (req, res, next) => {
+
+//     const errors = validationResult(req);
+//     console.log()
+//     if (errors.isEmpty()) {
+//         try {  
+//             console.log("hjdgdgfhdshshd")
+//             const id = req.params._id
+//             console.log("mmmmm", id)
+//             const studentDetails: StudentDocument = req.body;
+//         //    const student = await Student.findOne({ $and: [{ isDeleted: false }, { _id: { $ne: studentDetails._id } }, { email: studentDetails.email }] });
+     
+          
+//             if (studentDetails) {   
+//             const student = await Student.findByIdAndUpdate(id,studentDetails,{new: true})
+//                 console.log("std", student)
+//                 // const userData = await Student.findOne({ _id: studentDetails._id });
+      
+//                 response(req, res, activity, 'Level-3', 'Update-Student', true, 200, student, clientError.success.updateSuccess);
+
+//             } else {
+//                 response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, "Email Already Exists");
+//             }
+//         } catch (err: any) {
+//             response(req, res, activity, 'Level-3', 'Update-Student', false, 500, {}, errorMessage.internalServer, err.message);
+//         }
+//     } else {
+//         response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
+//     }
+// }
 
 
 

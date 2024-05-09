@@ -38,7 +38,7 @@ export let CreateJWTToken = (data: any = {}) => {
         tokenData['id'] = data['id']
     }
   
-    const token = jwt.sign(tokenData, 'masterin', { expiresIn: '8h' });
+    const token = jwt.sign(tokenData, 'masterin', { expiresIn: '24h' });
     return token;
 }
 

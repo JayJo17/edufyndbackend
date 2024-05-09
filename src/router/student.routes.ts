@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getAllStudent, saveStudent,updateStudent, deleteStudent} from '../controller/student.controller';
+import { getAllStudent,getSingleStudent, saveStudent,updateStudent, deleteStudent} from '../controller/student.controller';
 import { checkQuery, checkRequestBodyParams } from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -11,6 +11,14 @@ router.get('/get', //get all users
     basicAuthUser,
      checkSession,
     getAllStudent
+);
+
+
+router.get('/getsinglestudent',
+    basicAuthUser,
+    checkSession,
+    checkQuery('_id'),
+    getSingleStudent,
 );
 
 router.post('/', 
@@ -25,6 +33,8 @@ router.put('/update', //update user
     checkRequestBodyParams('_id'),
     updateStudent  
 );
+
+
 
 
 router.delete('/delete', //delete user
