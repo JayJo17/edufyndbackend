@@ -61,7 +61,7 @@ export let saveStudent = async (req, res, next) => {
             }
 
         } catch (err: any) {
-
+          console.log(err)
             response(req, res, activity, 'Level-3', 'Save-Student', false, 500, {}, errorMessage.internalServer, err.message);
         }
     }

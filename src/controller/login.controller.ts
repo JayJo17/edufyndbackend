@@ -19,17 +19,13 @@ var activity = "Login"
  * @description This Function is used to Login.
  */
 export let loginEmail = async (req, res, next) => {
-    console.log("login balan") 
+  
     const errors = validationResult(req);  
     if (errors.isEmpty()) {  
         try {
             let { email, password } = req.body;
             const student = await Student.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             const agent = await Agent.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
-            // student["password"] = password
-            //   await student.save()
-            //   console.log("aaaa", student)
-            console.log("aaaa", agent)
             if (student) {
                 const newHash = await decrypt(student["password"]);
                 // console.log(newHash)

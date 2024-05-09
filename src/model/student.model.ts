@@ -56,13 +56,13 @@ const studentSchema =new mongoose.Schema({
     yearPassed: {type: String },
     institution: {type: String },
     percentage: {type: String },
-    doHaveAnyEnglishLanguageTest: {type: Boolean,required: true },
+    doHaveAnyEnglishLanguageTest: {type: Boolean},
     englishTestType: {
         type: String,
-        enum: ['IELTS', 'PTE', 'TOEFL', 'Duolingo'],
-        required: function() {
-          return !this.doHaveAnyEnglishLanguageTest || !!this.testScore;  // Only required if doHaveAnyEnglishLanguageTest is true
-        }
+        // enum: ['IELTS', 'PTE', 'TOEFL', 'Duolingo'],
+        // required: function() {
+        //   return !this.doHaveAnyEnglishLanguageTest === true;  // Only required if doHaveAnyEnglishLanguageTest is true
+        // }
       },
       testScore: {
         type: String,
