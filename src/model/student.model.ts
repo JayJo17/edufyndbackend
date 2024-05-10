@@ -20,7 +20,7 @@ export interface StudentDocument extends mongoose.Document {
     yearPassed?: number;
     institution?: string;
     percentage?: number;
-    doHaveAnyEnglishLanguageTest?: boolean;
+    doHaveAnyEnglishLanguageTest?: string;
     englishTestType?: any[]; // Only sEnglishLanguageTest is true
     testScore?: number; // Only sEnglishLanguageTest is true
     dateOfTest?: Date; // Only sEnglishLanguageTest is true
@@ -29,8 +29,10 @@ export interface StudentDocument extends mongoose.Document {
     desiredCourse?: string;
     workExperience?: number; // In years
     hasVisaRejections?: boolean;
+    visaReason?: string;
     anyVisaRejections?: string; // Only sVisaRejections is true
     hasTravelHistory?: boolean;
+    travelReason?: string;
     doYouHaveTravelHistory?: string; // Only sTravelHistory is true
     finance?: any[];
     password?: string;
