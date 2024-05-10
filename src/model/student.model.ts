@@ -75,7 +75,7 @@ const studentSchema =new mongoose.Schema({
       workExperience: {type: String},
       anyVisaRejections:{type: String}, // (Yes/No) If ‘Yes’ state reason (Text Box)
       visaReason: {type: String},
-      doYouHaveTravelHistory: {type: Boolean}, // (Yes/No) If ‘Yes’ state reason (Text Box)
+      doYouHaveTravelHistory: {type: String}, // (Yes/No) If ‘Yes’ state reason (Text Box)
       travelReason: {type: String},
       finance:{type: String},
       password: {type: String},
