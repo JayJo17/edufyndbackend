@@ -10,8 +10,8 @@ export interface StaffDocument extends mongoose.Document {
     reportingManager?: string;
     shiftTiming?: string; // (Attendance to be calculated based on this)
     areTheyEligibleForCasualLeave?: boolean; // – Yes/No (Yes – Casual to be considered | No – Casual leave restricted)
-    doj?: Date; // (Date of Joining)
-    dob?: Date;    // (Date of Birth)
+    doj?: String; // (Date of Joining)
+    dob?: String;    // (Date of Birth)
     address?: string;
     email?: string;
     mobileNumber?: string;
