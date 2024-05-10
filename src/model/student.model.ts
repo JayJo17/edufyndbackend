@@ -70,7 +70,10 @@ const studentSchema =new mongoose.Schema({
     englishTestType: { type: String},
       testScore: {type: String},
       dateOfTest: {type: String},
-      country:{type: String },
+      country:[{
+        label: {type: String}, 
+        value: {type: String}
+    }],
       desiredUniversity:{type: String}, //(Optional)
       desiredCourse:{type: String}, //(Optional)
       workExperience: {type: String},
