@@ -34,6 +34,7 @@ export interface StudentDocument extends mongoose.Document {
     doYouHaveTravelHistory?: string; // Only sTravelHistory is true
     finance?: any[];
     password?: string;
+    confirmPassword?: string;
     twitter?: string;
     facebook?: string;
     instagram?: string;
