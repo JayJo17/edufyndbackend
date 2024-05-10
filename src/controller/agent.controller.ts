@@ -55,7 +55,7 @@ export let createAgent = async (req, res, next) => {
                 finalResult["token"] = token;
                 finalResult["loginType"] = 'agent';
                 finalResult["agentDetails"] = result;
-              
+
                 response(req, res, activity, 'Level-2', 'Create-Agent', true, 200, finalResult, clientError.success.registerSuccessfully);
             }
             else {
@@ -75,49 +75,37 @@ export let createAgent = async (req, res, next) => {
 
 
 export let updateAgent = async (req, res, next) => {
-
     const errors = validationResult(req);
-    console.log()
     if (errors.isEmpty()) {
         try {
-
             const agentDetails: AgentDocument = req.body;
-            const agent = await Agent.findOne({ $and: [{ isDeleted: false }, { _id: { $ne: agentDetails._id } }, { email: agentDetails.email }] });
+            const updateData = await Agent.findOneAndUpdate({ _id: req.body._id }, {
+                $set: {
 
-            if (!agent) {
-                const updateAgent = new Agent(agentDetails);
+                    businessName: agentDetails.businessName,
+                    whatsAppNumber: agentDetails.whatsAppNumber,
+                    bankDetail: agentDetails.bankDetail,
+                    panNumberIndividual: agentDetails.panNumberIndividual,
+                    panNumberCompany: agentDetails.panNumberCompany,
+                    gstn: agentDetails.gstn,
+                    inc: agentDetails.inc,
+                    agentsCommission: agentDetails.agentsCommission,
+                    agentBusinessLogo: agentDetails.agentBusinessLogo,
+                    countryInterested: agentDetails.countryInterested
+                },
+                $addToSet: {
+                    address: agentDetails.address,
+                    staffDetail: agentDetails.staffDetail
+                }
 
-                const insertStudent = await updateAgent.updateOne({
-                    $set: {
-                       
-                        businessName: agentDetails.businessName,
-                        email: agentDetails.email,
-                        mobileNumber: agentDetails.mobileNumber,
-                        // whatsAppNumber: agentDetails.whatsAppNumber,
-                        bankDetail: agentDetails.bankDetail,
-                        panNumberIndividual:agentDetails.panNumberIndividual,
-                        panNumberCompany:agentDetails.panNumberCompany, 
-                        gstn: agentDetails.gstn,
-                        inc: agentDetails.inc,
-                        agentsCommission:agentDetails.agentsCommission,
-                        agentBusinessLogo: agentDetails.agentBusinessLogo,
-                        countryInterested: agentDetails.countryInterested
-                    },
-                    $addToSet: {
-                        address: agentDetails.address,
-                        staffDetail: agentDetails.staffDetail
-                    }
-                });
-                const userData = await Student.findOne({ _id: agentDetails._id });
-                response(req, res, activity, 'Level-3', 'Update-Agent', true, 200, userData, clientError.success.updateSuccess);
-
-            } else {
-                response(req, res, activity, 'Level-3', 'Update-Agent', false, 422, {}, errorMessage.fieldValidation, "Email Already Exists");
-            }
-        } catch (err: any) {
+            });
+            response(req, res, activity, 'Level-2', 'Update-Agent', true, 200, updateData, clientError.success.updateSuccess);
+        }
+        catch (err: any) {
             response(req, res, activity, 'Level-3', 'Update-Agent', false, 500, {}, errorMessage.internalServer, err.message);
         }
-    } else {
+    }
+    else {
         response(req, res, activity, 'Level-3', 'Update-Agent', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
     }
 }

@@ -77,8 +77,7 @@ export let updateStudent = async (req, res, next) => {
         try{
             const studentDetails : StudentDocument = req.body;
             const updateData = await Student.findOneAndUpdate({ _id: req.body._id }, {
-                $set: {
-                       
+                $set: {  
                     name: studentDetails.name,
                     passportNo: studentDetails.passportNo,
                     expiryDate:studentDetails.expiryDate,
@@ -108,14 +107,14 @@ export let updateStudent = async (req, res, next) => {
                 }
                 
             });
-            response(req, res, activity, 'Level-2', 'Update-User', true, 200, updateData, clientError.success.updateSuccess);
+            response(req, res, activity, 'Level-2', 'Update-Student', true, 200, updateData, clientError.success.updateSuccess);
         }
         catch (err: any) {
-            response(req, res, activity, 'Level-3', 'Update-User', false, 500, {}, errorMessage.internalServer, err.message);
+            response(req, res, activity, 'Level-3', 'Update-Student', false, 500, {}, errorMessage.internalServer, err.message);
         }
     }
     else {
-        response(req, res, activity, 'Level-3', 'Update-User', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
+        response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
     }
 }
 

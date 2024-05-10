@@ -18,7 +18,7 @@ router.get('/get', //get all agent
     getAllAgent
 );
 
-router.get('/getsinglestudent',
+router.get('/getsingleagent',
     basicAuthUser,
     checkSession,
     checkQuery('_id'),
@@ -43,7 +43,7 @@ router.put('/create-student', //create student by agent
 router.put('/update', //update agent
     basicAuthUser,
     checkSession,
-    checkQuery('_id'),
+    checkRequestBodyParams('_id'),
     updateAgent  
 );
 

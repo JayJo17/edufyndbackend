@@ -63,35 +63,18 @@ const studentSchema =new mongoose.Schema({
     yearPassed: {type: String },
     institution: {type: String },
     percentage: {type: String },
-    doHaveAnyEnglishLanguageTest: {type: Boolean},
-    englishTestType: {
-        type: String,
-        // enum: ['IELTS', 'PTE', 'TOEFL', 'Duolingo'],
-        // required: function() {
-        //   return !this.doHaveAnyEnglishLanguageTest === true;  // Only required if doHaveAnyEnglishLanguageTest is true
-        // }
-      },
-      testScore: {
-        type: String,
-        required: function() {
-            return this.doHaveAnyEnglishLanguageTest === true; // Test score is required only if doHaveAnyEnglishLanguageTest is true
-        },
-        validate: {
-            validator: function(value) {
-                return this.doHaveAnyEnglishLanguageTest || !value; // Test score should not be provided if doHaveAnyEnglishLanguageTest is false
-            },
-            message: 'Test score cannot be provided if doHaveAnyEnglishLanguageTest is false'
-        }
-    },
-      dateOfTest: {type: String, required: function() {
-        return this.doHaveAnyEnglishLanguageTest === true; 
-      } },
+    doHaveAnyEnglishLanguageTest: {type: String},
+    englishTestType: { type: String},
+      testScore: {type: String},
+      dateOfTest: {type: String},
       country:{type: String },
       desiredUniversity:{type: String}, //(Optional)
       desiredCourse:{type: String}, //(Optional)
       workExperience: {type: String},
       anyVisaRejections:{type: String}, // (Yes/No) If ‘Yes’ state reason (Text Box)
+      visaReason: {type: String},
       doYouHaveTravelHistory: {type: Boolean}, // (Yes/No) If ‘Yes’ state reason (Text Box)
+      travelReason: {type: String},
       finance:{type: String},
       password: {type: String},
       confirmPassword:  {type: String},
