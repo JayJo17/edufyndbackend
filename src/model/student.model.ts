@@ -29,10 +29,10 @@ export interface StudentDocument extends mongoose.Document {
     desiredCourse?: string;
     workExperience?: number; // In years
     hasVisaRejections?: boolean;
-    visaReason?: string;
+
     anyVisaRejections?: string; // Only sVisaRejections is true
     hasTravelHistory?: boolean;
-    travelReason?: string;
+   
     doYouHaveTravelHistory?: string; // Only sTravelHistory is true
     finance?: any[];
     password?: string;
@@ -74,9 +74,9 @@ const studentSchema =new mongoose.Schema({
       desiredCourse:{type: String}, //(Optional)
       workExperience: {type: String},
       anyVisaRejections:{type: String}, // (Yes/No) If ‘Yes’ state reason (Text Box)
-      visaReason: {type: String},
+    
       doYouHaveTravelHistory: {type: String}, // (Yes/No) If ‘Yes’ state reason (Text Box)
-      travelReason: {type: String},
+  
       finance:{type: String},
       password: {type: String},
       confirmPassword:  {type: String},
