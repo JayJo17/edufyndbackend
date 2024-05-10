@@ -24,7 +24,7 @@ export interface StudentDocument extends mongoose.Document {
     englishTestType?: any[]; // Only sEnglishLanguageTest is true
     testScore?: number; // Only sEnglishLanguageTest is true
     dateOfTest?: Date; // Only sEnglishLanguageTest is true
-    desiredCountry?: string[];
+    country?: string[];
     desiredUniversity?: string;
     desiredCourse?: string;
     workExperience?: number; // In years
@@ -39,6 +39,8 @@ export interface StudentDocument extends mongoose.Document {
     facebook?: string;
     instagram?: string;
     linkedIn?: string;
+    modifiedOn?: Date;
+    modifiedBy?: string;
 
 };
 
@@ -84,7 +86,7 @@ const studentSchema =new mongoose.Schema({
       dateOfTest: {type: String, required: function() {
         return this.doHaveAnyEnglishLanguageTest === true; 
       } },
-      desiredCountry:{type: String },
+      country:{type: String },
       desiredUniversity:{type: String}, //(Optional)
       desiredCourse:{type: String}, //(Optional)
       workExperience: {type: String},
@@ -96,7 +98,9 @@ const studentSchema =new mongoose.Schema({
       twitter: {type: String},
       instagram: {type: String},
       facebook: {type: String},
-      linkedIn: {type: String}
+      linkedIn: {type: String},
+      modifiedOn: { type: Date },
+      modifiedBy: { type: String }
 })
 
 

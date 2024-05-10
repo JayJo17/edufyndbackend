@@ -28,15 +28,14 @@ router.post('/',
 );
 router.post('/contact', createContact);
 
-router.put('/update', //update user
+
+
+router.put('/update', // update user
     basicAuthUser,
     checkSession,
-    checkQuery('_id'),
     checkRequestBodyParams('_id'),
-    updateStudent  
+    updateStudent
 );
-
-
 
 
 router.delete('/delete', //delete user

@@ -51,9 +51,10 @@ export let saveStudent = async (req, res, next) => {
                 result['_id'] = insertData._id
                 result['email'] = insertData.email;
                 let finalResult = {};
+                finalResult["token"] = token;
                 finalResult["loginType"] = 'student';
                 finalResult["studentDetails"] = result;
-                finalResult["token"] = token;
+                
                 response(req, res, activity, 'Level-2', 'Save-Student', true, 200, finalResult, clientError.success.registerSuccessfully);
             }
             else {
@@ -70,110 +71,55 @@ export let saveStudent = async (req, res, next) => {
     }
 }
 
-
-
-
 export let updateStudent = async (req, res, next) => {
-
     const errors = validationResult(req);
-
     if (errors.isEmpty()) {
-        try {  
-
-            const studentDetails: StudentDocument = req.body;
-           const student = await Student.findOne({ $and: [{ isDeleted: false }, { _id: { $ne: studentDetails._id } }, { email: studentDetails.email }] });
-            // const student = await Student.findOne({ $and: [{ isDeleted: false }, { email: studentDetails.email }] });
-            console.log("sekar", student)
-            if (!student) {
-                const updateStudent = new Student(studentDetails);
-           
-                const insertStudent = await updateStudent.updateOne({
-                    $set: {
-                        studentCode: studentDetails.studentCode,
-                        source: studentDetails.source,
-                        name: studentDetails.name,
-                        passportNo: studentDetails.passportNo,
-                        expiryDate:studentDetails.expiryDate,
-                        dob: studentDetails.dob,
-                        citizenship:studentDetails.citizenship,
-                        gender:studentDetails.gender,
-                        email:studentDetails.email,
-                        primaryNumber:studentDetails.primaryNumber,
-                        whatsAppNumber: studentDetails.whatsAppNumber,
-                        highestQualification:studentDetails.highestQualification,
-                        degreeName:studentDetails.degreeName,
-                        academicYear: studentDetails.academicYear,
-                        yearPassed: studentDetails.yearPassed,
-                        institution:studentDetails.institution,
-                        percentage: studentDetails.percentage,
-                        doHaveAnyEnglishLanguageTest:studentDetails.doHaveAnyEnglishLanguageTest,
-                        englishTestType:studentDetails.englishTestType,
-                        testScore: studentDetails.testScore,
-                        dateOfTest: studentDetails.dateOfTest,
-                        desiredCountry:studentDetails.desiredCountry,
-                        desiredUniversity:studentDetails.desiredUniversity, 
-                        desiredCourse: studentDetails.desiredCourse, 
-                        workExperience: studentDetails.workExperience,
-                        anyVisaRejections: studentDetails.anyVisaRejections, 
-                        doYouHaveTravelHistory: studentDetails.doYouHaveTravelHistory, 
-                        finance: studentDetails.finance,
-                        twitter:studentDetails .twitter,
-                        facebook: studentDetails.facebook,
-                        instagram: studentDetails.instagram,
-                        linkedIn: studentDetails.linkedIn
-                    }
-                });
-                const userData = await Student.findOne({ _id: studentDetails._id });
-      
-                response(req, res, activity, 'Level-3', 'Update-Student', true, 200, userData, clientError.success.updateSuccess);
-
-            } else {
-                response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, "Email Already Exists");
-            }
-        } catch (err: any) {
-            response(req, res, activity, 'Level-3', 'Update-Student', false, 500, {}, errorMessage.internalServer, err.message);
+        try{
+            const studentDetails : StudentDocument = req.body;
+            const updateData = await Student.findOneAndUpdate({ _id: req.body._id }, {
+                $set: {
+                       
+                    name: studentDetails.name,
+                    passportNo: studentDetails.passportNo,
+                    expiryDate:studentDetails.expiryDate,
+                    dob: studentDetails.dob,
+                    citizenship:studentDetails.citizenship,
+                    gender:studentDetails.gender,
+                    whatsAppNumber: studentDetails.whatsAppNumber,
+                    degreeName:studentDetails.degreeName,
+                    academicYear: studentDetails.academicYear,
+                    institution:studentDetails.institution,
+                    percentage: studentDetails.percentage,
+                    doHaveAnyEnglishLanguageTest:studentDetails.doHaveAnyEnglishLanguageTest,
+                    englishTestType:studentDetails.englishTestType,
+                    testScore: studentDetails.testScore,
+                    dateOfTest: studentDetails.dateOfTest,
+                    country:studentDetails.country,
+                    desiredUniversity:studentDetails.desiredUniversity, 
+                    desiredCourse: studentDetails.desiredCourse, 
+                    workExperience: studentDetails.workExperience,
+                    anyVisaRejections: studentDetails.anyVisaRejections, 
+                    doYouHaveTravelHistory: studentDetails.doYouHaveTravelHistory, 
+                    finance: studentDetails.finance,
+                    twitter:studentDetails .twitter,
+                    facebook: studentDetails.facebook,
+                    instagram: studentDetails.instagram,
+                    linkedIn: studentDetails.linkedIn
+                }
+                
+            });
+            response(req, res, activity, 'Level-2', 'Update-User', true, 200, updateData, clientError.success.updateSuccess);
         }
-    } else {
-        response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
+        catch (err: any) {
+            response(req, res, activity, 'Level-3', 'Update-User', false, 500, {}, errorMessage.internalServer, err.message);
+        }
+    }
+    else {
+        response(req, res, activity, 'Level-3', 'Update-User', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
     }
 }
 
 
-
-//////
-
-
-
-// export let updateStudent = async (req, res, next) => {
-
-//     const errors = validationResult(req);
-//     console.log()
-//     if (errors.isEmpty()) {
-//         try {  
-//             console.log("hjdgdgfhdshshd")
-//             const id = req.params._id
-//             console.log("mmmmm", id)
-//             const studentDetails: StudentDocument = req.body;
-//         //    const student = await Student.findOne({ $and: [{ isDeleted: false }, { _id: { $ne: studentDetails._id } }, { email: studentDetails.email }] });
-     
-          
-//             if (studentDetails) {   
-//             const student = await Student.findByIdAndUpdate(id,studentDetails,{new: true})
-//                 console.log("std", student)
-//                 // const userData = await Student.findOne({ _id: studentDetails._id });
-      
-//                 response(req, res, activity, 'Level-3', 'Update-Student', true, 200, student, clientError.success.updateSuccess);
-
-//             } else {
-//                 response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, "Email Already Exists");
-//             }
-//         } catch (err: any) {
-//             response(req, res, activity, 'Level-3', 'Update-Student', false, 500, {}, errorMessage.internalServer, err.message);
-//         }
-//     } else {
-//         response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
-//     }
-// }
 
 
 

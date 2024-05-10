@@ -52,9 +52,10 @@ export let createAgent = async (req, res, next) => {
                 result['_id'] = insertData._id
                 result['email'] = insertData.email;
                 let finalResult = {};
+                finalResult["token"] = token;
                 finalResult["loginType"] = 'agent';
                 finalResult["agentDetails"] = result;
-                finalResult["token"] = token;
+              
                 response(req, res, activity, 'Level-2', 'Create-Agent', true, 200, finalResult, clientError.success.registerSuccessfully);
             }
             else {
@@ -90,10 +91,9 @@ export let updateAgent = async (req, res, next) => {
                     $set: {
                        
                         businessName: agentDetails.businessName,
-                      
                         email: agentDetails.email,
                         mobileNumber: agentDetails.mobileNumber,
-                        whatsAppNumber: agentDetails.whatsAppNumber,
+                        // whatsAppNumber: agentDetails.whatsAppNumber,
                         bankDetail: agentDetails.bankDetail,
                         panNumberIndividual:agentDetails.panNumberIndividual,
                         panNumberCompany:agentDetails.panNumberCompany, 
