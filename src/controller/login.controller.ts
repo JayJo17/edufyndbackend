@@ -3,8 +3,11 @@ import { decrypt, encrypt } from "../helper/Encryption";
 import { clientError, errorMessage } from "../helper/ErrorMessage";
 import { response, sendEmail } from "../helper/commonResponseHandler";
 import * as TokenManager from "../utils/tokenManager";
+import { SuperAdmin } from "../model/superAdmin.model";
+import { Admin } from "../model/admin.model";
 import { Student } from "../model/student.model";
 import { Agent } from "../model/agent.model";
+
 
 
 
@@ -25,10 +28,13 @@ export let loginEmail = async (req, res, next) => {
         try {
             let { email, password } = req.body;
             const student = await Student.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
+            const superadmin = await SuperAdmin.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
+            const admin = await Admin.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             const agent = await Agent.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
+            
             if (student) {
                 const newHash = await decrypt(student["password"]);
-                // console.log(newHash)
+              
                 if (student["status"] === 2) {
                     response(req, res, activity, 'Level-3', 'Login-Email', false, 499, {}, clientError.account.inActive);
                 } else if (newHash != password) {
@@ -67,6 +73,49 @@ export let loginEmail = async (req, res, next) => {
                     let finalResult = {};
                     finalResult["loginType"] = 'agent';
                     finalResult["agentDetails"] = details;
+                    finalResult["token"] = token;
+                    response(req, res, activity, 'Level-2', 'Login-Email', true, 200, finalResult, clientError.success.loginSuccess);
+                }
+            }
+            else if (superadmin) {
+                const newHash = await decrypt(superadmin["password"]);
+                if (superadmin["status"] === 2) {
+                    response(req, res, activity, 'Level-3', 'Login-Email', false, 499, {}, clientError.account.inActive);
+                } else if (newHash != password) {
+                    response(req, res, activity, 'Level-3', 'Login-Email', false, 403, {}, "Invalid Password !");
+                } else {
+                    const token = await TokenManager.CreateJWTToken({
+                        id: superadmin["_id"],
+                        name: superadmin["name"],
+                        loginType: 'superadmin'
+                    });
+                    const details = {}
+                    details['_id'] = superadmin._id
+                    details['email'] = superadmin.email;
+                    let finalResult = {};
+                    finalResult["loginType"] = 'superadmin';
+                    finalResult["superAdminDetails"] = details;
+                    finalResult["token"] = token;
+                    response(req, res, activity, 'Level-2', 'Login-Email', true, 200, finalResult, clientError.success.loginSuccess);
+                }
+            }else if (admin) {
+                const newHash = await decrypt(admin["password"]);
+                if (admin["status"] === 2) {
+                    response(req, res, activity, 'Level-3', 'Login-Email', false, 499, {}, clientError.account.inActive);
+                } else if (newHash != password) {
+                    response(req, res, activity, 'Level-3', 'Login-Email', false, 403, {}, "Invalid Password !");
+                } else {
+                    const token = await TokenManager.CreateJWTToken({
+                        id: admin["_id"],
+                        name: admin["name"],
+                        loginType: 'admin'
+                    });
+                    const details = {}
+                    details['_id'] = admin._id
+                    details['email'] = admin.email;
+                    let finalResult = {};
+                    finalResult["loginType"] = 'admin';
+                    finalResult["adminDetails"] = details;
                     finalResult["token"] = token;
                     response(req, res, activity, 'Level-2', 'Login-Email', true, 200, finalResult, clientError.success.loginSuccess);
                 }

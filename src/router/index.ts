@@ -1,6 +1,9 @@
 import { Router } from 'express';
 const router: Router = Router();
 
+
+import SuperAdmin from './superAdmin.routes'
+import Admin from './admin.routes'
 import Student from './student.routes'
 import Agent from './agent.routes'
 import Login from './login.routes'
@@ -10,6 +13,8 @@ import Contact from './contact.routes'
 
 
 
+router.use('/superadmin', SuperAdmin)
+router.use('/admin', Admin)
 router.use('/student', Student)
 router.use('/agent', Agent)
 router.use('/login', Login)
