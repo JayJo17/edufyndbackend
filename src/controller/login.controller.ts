@@ -27,10 +27,12 @@ export let loginEmail = async (req, res, next) => {
     if (errors.isEmpty()) {  
         try {
             let { email, password } = req.body;
+
             const student = await Student.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             const superadmin = await SuperAdmin.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             const admin = await Admin.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             const agent = await Agent.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
+            
             
             if (student) {
                 const newHash = await decrypt(student["password"]);
