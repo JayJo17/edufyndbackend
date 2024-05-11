@@ -6,7 +6,7 @@ import { checkSession } from '../utils/tokenManager';
 const router:Router=Router();
 
 
-router.get('/get', //get all admin
+router.get('/getallAdmin', //get all admin
     basicAuthUser,
      checkSession,
     getAllAdmin

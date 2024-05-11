@@ -14,7 +14,7 @@ export interface AdminDocument extends mongoose.Document{
 
 const adminSchema = new mongoose.Schema({
     name: {type: String},
-    adminCode: {ype: String},
+    adminCode: {type: String},
     email: { type: String},
     mobileNumber: {type: String},
     password: {type: String},

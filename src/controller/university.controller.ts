@@ -15,7 +15,7 @@ export let createUniversity = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
-            // const superadmin = await SuperAdmin.findOne({ $and: [{ isDeleted: false }, { universityName: req.body.universityName }] });
+           
             const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
             console.log('superrr', superadmin)
             if (superadmin) {
@@ -44,35 +44,42 @@ export let createUniversity = async (req, res, next) => {
 
 
 
-// export let updateUniversityBySuperAdmin = async (req, res, next) => {
-//     const errors = validationResult(req);
-//     if (errors.isEmpty()) {
-//         try{
-//             const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
+export let updateUniversityBySuperAdmin = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        try{
+            const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
          
-//             if (superadmin) {
-//                 const universityDetails : UniversityDocument = req.body;
-//                 const updateData = await University.findOneAndUpdate({ _id: req.body._id }, {
-//                     $set: {  
-//                         m
-//                     }
-//                 })
-                 
-//             }
-//             else {
-//                 response(req, res, activity, 'Level-3', 'Create-University', true, 422, {}, 'Not Authorized to create University');
-//             }    
+            if (superadmin) {
+                const universityDetails : UniversityDocument = req.body;
+                const updateData = await University.findOneAndUpdate({ _id: req.body._id }, {
+                    $set: {  
+                        universityName: universityDetails.universityName,
+                        universityLogo: universityDetails.universityLogo,
+                        country: universityDetails.country,
+                        campus: universityDetails.campus,
+                        ranking: universityDetails.ranking,
+                        averageFees: universityDetails.averageFees,
+                        popularCategories: universityDetails.popularCategories,
+                        admissionRequirement: universityDetails.admissionRequirement,
+                        offerTAT: universityDetails.offerTAT,
+                        commission: universityDetails.commission
+                    }
+                })
+                response(req, res, activity, 'Level-2', 'Update-University', true, 200, updateData, clientError.success.updateSuccess);
+            }
+            else {
+                response(req, res, activity, 'Level-3', 'Update-University', true, 422, {}, 'Not Authorized to update University');
+            }    
             
-//             response(req, res, activity, 'Level-2', 'Update-Student', true, 200, updateData, clientError.success.updateSuccess);
-//         }
-//         catch (err: any) {
-//             response(req, res, activity, 'Level-3', 'Update-Student', false, 500, {}, errorMessage.internalServer, err.message);
-//         }
-//     }
-//     else {
-//         response(req, res, activity, 'Level-3', 'Update-Student', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
-//     }
-// }
+        } catch (err: any) {
+            response(req, res, activity, 'Level-3', 'Update-University', false, 500, {}, errorMessage.internalServer, err.message);
+        }
+    }
+    else {
+        response(req, res, activity, 'Level-3', 'Update-University', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
+    }
+}
 
 
 
