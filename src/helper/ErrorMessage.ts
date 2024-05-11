@@ -41,6 +41,7 @@ export let responseErrors = {
 export let errorMessage = {
     internalServer: 'Internal Server Error',
     fieldValidation: 'Field Validation Failed',
+    notAuthorized: 'Not Authorized',
     cantdelete: 'Cannot Delete as it is already in use !',
     cantChangestatus: 'Cannot Change the Status'
 }

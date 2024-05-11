@@ -19,7 +19,7 @@ export let getAllAdmin = async (req, res, next) => {
 };
 
 
-export let getSingleAgent = async (req, res, next) => {
+export let getSingleAdmin = async (req, res, next) => {
     try {
         const agent = await Admin.findOne({ _id: req.query._id });
         response(req, res, activity, 'Level-1', 'Get-Single-Admin', true, 200, agent, clientError.success.fetchedSuccessfully);
@@ -40,6 +40,9 @@ export let createAdmin = async (req, res, next) => {
                 req.body.confirmPassword = await encrypt(req.body.confirmPassword)
 
                 const adminDetails: AdminDocument = req.body;
+                const uniqueId = Math.floor(Math.random() * 1000)
+                adminDetails.adminCode = "AD" + uniqueId + "Fynd"
+                
                 const createData = new Admin(adminDetails);
                 let insertData = await createData.save();
                 const token = await TokenManager.CreateJWTToken({
