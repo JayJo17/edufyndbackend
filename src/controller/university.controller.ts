@@ -1,14 +1,32 @@
 import { University, UniversityDocument} from '../model/university.model'
 import { SuperAdmin } from "../model/superAdmin.model";
 import { validationResult } from "express-validator";
-import * as TokenManager from "../utils/tokenManager";
 import { response, } from "../helper/commonResponseHandler";
 import { clientError, errorMessage } from "../helper/ErrorMessage";
-import { decrypt, encrypt } from "../helper/Encryption";
+
 
 var activity = "University";
 
 
+
+export let getAllUniversity = async (req, res, next) => {
+    try {
+        const data = await University.find({ isDeleted: false });
+        response(req, res, activity, 'Level-1', 'GetAll-University', true, 200, data, clientError.success.fetchedSuccessfully);
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'GetAll-University', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+};
+
+
+export let getSingleUniversity = async (req, res, next) => {
+    try {
+        const student = await University.findOne({ _id: req.query._id });
+        response(req, res, activity, 'Level-1', 'Get-Single-University', true, 200, student, clientError.success.fetchedSuccessfully);
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-Single-University', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+}
 
 
 export let createUniversity = async (req, res, next) => {
@@ -87,15 +105,24 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
 
 
 
-// export let deleteStudent = async (req, res, next) => {
+export let deleteUniversity = async (req, res, next) => {
   
-//     try {
-//         let id = req.query._id;
-//         const student = await Student.findByIdAndDelete({ _id: id })
-//         // const notification = await Notification.deleteMany({ $or: [{ to: id }, { from: id }] })
-//         response(req, res, activity, 'Level-2', 'Delete-Student', true, 200, student, 'Successfully Remove User');
-//     }
-//     catch (err: any) {
-//         response(req, res, activity, 'Level-3', 'Delete-Student', false, 500, {}, errorMessage.internalServer, err.message);
-//     }
-// };
+    try {
+        const superadmin = await SuperAdmin.findOne({ _id: req.query.sup });
+        console.log("superA", superadmin)
+        if(superadmin){
+            let id = req.query._id;
+            console.log("univ", id)
+            const university = await University.findByIdAndDelete({ _id: id })
+           
+            response(req, res, activity, 'Level-2', 'Delete-University', true, 200, university, 'Successfully Remove University');
+        }
+        else {
+            response(req, res, activity, 'Level-3', 'Delete-University', true, 422, {}, 'Not Authorized to Delete University');
+        }
+      
+    }
+    catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Delete-University', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+};
