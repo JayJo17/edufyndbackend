@@ -17,7 +17,7 @@ export let createUniversity = async (req, res, next) => {
         try {
            
             const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
-            console.log('superrr', superadmin)
+          
             if (superadmin) {
                 const universityDetails: UniversityDocument = req.body;
           

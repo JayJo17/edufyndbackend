@@ -11,7 +11,7 @@ const router:Router=Router();
 // router.get('/get', //get all users
 //     basicAuthUser,
 //      checkSession,
-//     getAllU
+//     getAllUniversity
 // );
 
 
