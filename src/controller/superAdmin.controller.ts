@@ -20,8 +20,8 @@ export let createSuperAdmin = async (req, res, next) => {
                 req.body.password = await encrypt(req.body.password)
                 req.body.confirmPassword = await encrypt(req.body.confirmPassword)
 
-                const superadminDetails: SuperAdminDocument = req.body;
-                const createData = new SuperAdmin(superadminDetails);
+                const superAdminDetails: SuperAdminDocument = req.body;
+                const createData = new SuperAdmin(superAdminDetails);
                 let insertData = await createData.save();
                 const token = await TokenManager.CreateJWTToken({
                     id: insertData["_id"],
@@ -34,7 +34,7 @@ export let createSuperAdmin = async (req, res, next) => {
                 let finalResult = {};
                 finalResult["token"] = token;
                 finalResult["loginType"] = 'SuperAdmin';
-                finalResult["superadminDetails"] = result;
+                finalResult["superAdminDetails"] = result;
 
                 response(req, res, activity, 'Level-2', 'Create-Super-Admin', true, 200, finalResult, clientError.success.registerSuccessfully);
             }

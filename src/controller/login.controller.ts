@@ -29,7 +29,7 @@ export let loginEmail = async (req, res, next) => {
             let { email, password } = req.body;
 
             const student = await Student.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
-            const superadmin = await SuperAdmin.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
+            const superAdmin = await SuperAdmin.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             const admin = await Admin.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             const agent = await Agent.findOne({ $and: [{ email: email }, { isDeleted: false }] }, { email: 1, password: 1,name:1, status: 1 })
             
@@ -79,23 +79,23 @@ export let loginEmail = async (req, res, next) => {
                     response(req, res, activity, 'Level-2', 'Login-Email', true, 200, finalResult, clientError.success.loginSuccess);
                 }
             }
-            else if (superadmin) {
-                const newHash = await decrypt(superadmin["password"]);
-                if (superadmin["status"] === 2) {
+            else if (superAdmin) {
+                const newHash = await decrypt(superAdmin["password"]);
+                if (superAdmin["status"] === 2) {
                     response(req, res, activity, 'Level-3', 'Login-Email', false, 499, {}, clientError.account.inActive);
                 } else if (newHash != password) {
                     response(req, res, activity, 'Level-3', 'Login-Email', false, 403, {}, "Invalid Password !");
                 } else {
                     const token = await TokenManager.CreateJWTToken({
-                        id: superadmin["_id"],
-                        name: superadmin["name"],
-                        loginType: 'superadmin'
+                        id: superAdmin["_id"],
+                        name: superAdmin["name"],
+                        loginType: 'superAdmin'
                     });
                     const details = {}
-                    details['_id'] = superadmin._id
-                    details['email'] = superadmin.email;
+                    details['_id'] = superAdmin._id
+                    details['email'] = superAdmin.email;
                     let finalResult = {};
-                    finalResult["loginType"] = 'superadmin';
+                    finalResult["loginType"] = 'superAdmin';
                     finalResult["superAdminDetails"] = details;
                     finalResult["token"] = token;
                     response(req, res, activity, 'Level-2', 'Login-Email', true, 200, finalResult, clientError.success.loginSuccess);
