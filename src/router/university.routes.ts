@@ -7,6 +7,22 @@ import { checkSession } from '../utils/tokenManager';
 const router:Router=Router();
 
 
+
+// router.get('/get', //get all users
+//     basicAuthUser,
+//      checkSession,
+//     getAllU
+// );
+
+
+// router.get('/getsinglestudent',
+//     basicAuthUser,
+//     checkSession,
+//     checkQuery('_id'),
+//     getSingleStudent,
+// );
+
+
 router.post('/create', 
         checkSession,
         checkQuery('_id'),
