@@ -13,8 +13,6 @@ import Applicant from './applicant.routes'
 import Contact from './contact.routes'
 
 
-
-
 router.use('/superadmin', SuperAdmin)
 router.use('/admin', Admin)
 router.use('/student', Student)

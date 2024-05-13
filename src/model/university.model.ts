@@ -18,7 +18,7 @@ export interface UniversityDocument extends mongoose.Document {
 
 
 const universitySchema = new mongoose.Schema({
-    _id: { type: mongoose.Types.ObjectId, required: true, auto: true },
+    _id: { type: mongoose.Types.ObjectId, auto: true },
     superAdminId: {type: mongoose.Types.ObjectId, ref: 'SuperAdmin'},
     universityName:{type: String},
     email:{type: String},
