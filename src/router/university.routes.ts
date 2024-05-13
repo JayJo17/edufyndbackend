@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getAllUniversity, getSingleUniversity, createUniversity,updateUniversityBySuperAdmin, deleteUniversity} from '../controller/university.controller';
+import {getAllUniversity, getSingleUniversity, saveUniversity,updateUniversityBySuperAdmin, deleteUniversity} from '../controller/university.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -28,7 +28,7 @@ router.post('/',
         checkSession,
         // checkQuery('_id'),
         // checkRequestBodyParams('_id'),
-        createUniversity
+        saveUniversity
 );
 
 

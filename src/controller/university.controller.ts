@@ -126,3 +126,27 @@ export let deleteUniversity = async (req, res, next) => {
         response(req, res, activity, 'Level-3', 'Delete-University', false, 500, {}, errorMessage.internalServer, err.message);
     }
 };
+
+
+export let saveUniversity = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        try {
+            const universityDetails: UniversityDocument = req.body;
+            let date = new Date();
+            // universityDetails.date = date?.getDate();
+            // universityDetails.month = date?.getMonth() + 1;
+            // universityDetails.year = date?.getFullYear()
+            const createData = new University(universityDetails);
+            let insertData = await createData.save();
+           
+            response(req, res, activity, 'Level-2', 'Save-Post', true, 200, insertData, clientError.success.savedSuccessfully);
+
+        } catch (err: any) {
+            response(req, res, activity, 'Level-3', 'Save-Post', false, 500, {}, errorMessage.internalServer, err.message);
+        }
+    } else {
+        response(req, res, activity, 'Level-3', 'Save-Post', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
+    }
+};
+
