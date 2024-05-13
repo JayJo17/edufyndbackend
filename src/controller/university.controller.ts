@@ -34,7 +34,7 @@ export let createUniversity = async (req, res, next) => {
     if (errors.isEmpty()) {
         try {
            
-            const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
+            const superadmin = await SuperAdmin.findOne({ _id: req.body.superAdminId });
           
             if (superadmin) {
                 const universityDetails: UniversityDocument = req.body;
@@ -81,7 +81,11 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
                         popularCategories: universityDetails.popularCategories,
                         admissionRequirement: universityDetails.admissionRequirement,
                         offerTAT: universityDetails.offerTAT,
+                        
+                    },
+                    $addToSet: {
                         commission: universityDetails.commission
+
                     }
                 })
                 response(req, res, activity, 'Level-2', 'Update-University', true, 200, updateData, clientError.success.updateSuccess);
@@ -101,18 +105,14 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
 
 
 
-
-
-
-
 export let deleteUniversity = async (req, res, next) => {
   
     try {
         const superadmin = await SuperAdmin.findOne({ _id: req.query.sup });
-        console.log("superA", superadmin)
+     
         if(superadmin){
             let id = req.query._id;
-            console.log("univ", id)
+      
             const university = await University.findByIdAndDelete({ _id: id })
            
             response(req, res, activity, 'Level-2', 'Delete-University', true, 200, university, 'Successfully Remove University');

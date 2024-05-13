@@ -29,7 +29,7 @@ export let getSingleStudent = async (req, res, next) => {
 }
 
 export let saveStudent = async (req, res, next) => {
-    console.log("Register ")
+
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {

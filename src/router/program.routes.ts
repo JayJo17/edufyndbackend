@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getAllUniversity, getSingleUniversity, createUniversity,updateUniversityBySuperAdmin, deleteUniversity} from '../controller/university.controller';
+import {getAllProgram, getSingleProgram, createProgram,updateProgramBySuperAdmin, deleteProgram} from '../controller/program.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -8,27 +8,25 @@ const router:Router=Router();
 
 
 
-router.get('/getalluniversity', //get all university
+router.get('/getallprogram', //get all program
     basicAuthUser,
      checkSession,
-    getAllUniversity
+    getAllProgram
 );
 
 
-router.get('/getsingleuniversity',
+router.get('/getsingleprogram',
     basicAuthUser,
     checkSession,
     checkQuery('_id'),
-    getSingleUniversity,
+    getSingleProgram,
 );
 
 
 router.post('/', 
-         basicAuthUser,
         checkSession,
-        // checkQuery('_id'),
-        // checkRequestBodyParams('_id'),
-        createUniversity
+        checkQuery('_id'),
+        createProgram
 );
 
 
@@ -37,15 +35,15 @@ router.put('/', // update
     checkSession,
     checkQuery('_id'),
     checkRequestBodyParams('_id'),
-    updateUniversityBySuperAdmin
+    updateProgramBySuperAdmin
 );
 
 
-router.delete('/', //delete university
+router.delete('/', //delete program
     basicAuthUser,
     checkSession,
     checkQuery('_id'),
-    deleteUniversity
+    deleteProgram
 );
 
 

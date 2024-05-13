@@ -1,10 +1,13 @@
 import * as mongoose from 'mongoose'
 
 export interface UniversityDocument extends mongoose.Document {
+    _id?: any;
+    superAdminId?: any;
     universityName?: string; // University Name
+    email?: string;
     universityLogo?: string; // University Logo (Optional)
     country?: string; // Country
-    campus?: any[];
+    campus?: string;
     ranking?: string; // Ranking (Optional)
     averageFees?: number; // Average Fees
     popularCategories?: string[]; // Popular Categories (Multiple)
@@ -15,12 +18,12 @@ export interface UniversityDocument extends mongoose.Document {
 
 
 const universitySchema = new mongoose.Schema({
+    _id: { type: mongoose.Types.ObjectId, required: true, auto: true },
+    superAdminId: {type: mongoose.Types.ObjectId, ref: 'SuperAdmin'},
     universityName:{type: String},
+    email:{type: String},
     country:{ type:String},
-    campus:[{
-        state:{type:String},
-        city:{type:String}
-    }],
+    campus:{ type: String},
     ranking: {type: String},
     averageFees:{type:String},
     popularCategory: {type:String},
