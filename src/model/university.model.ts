@@ -29,9 +29,7 @@ const universitySchema = new mongoose.Schema({
     universityLogo: {type: String},
     email:{type: String},
     country:{ type:String},
-    campus:[{
-        campusName: {type: String}
-    }],
+    campus:[{type: String}],
     ranking: {type: String},
     averageFees:{type:String},
     popularCategory: {type:String},

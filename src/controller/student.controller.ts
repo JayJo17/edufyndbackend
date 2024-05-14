@@ -121,11 +121,6 @@ export let updateStudent = async (req, res, next) => {
 }
 
 
-
-
-
-
-
 export let deleteStudent = async (req, res, next) => {
   
     try {

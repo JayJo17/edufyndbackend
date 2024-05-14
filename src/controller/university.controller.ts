@@ -113,20 +113,10 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
 export let deleteUniversity = async (req, res, next) => {
 
     try {
-        const superadmin = await SuperAdmin.findOne({ _id: req.query.sup });
-
-        if (superadmin) {
-            let id = req.query._id;
-
-            const university = await University.findByIdAndDelete({ _id: id })
+            const university = await University.findOneAndDelete({ _id: req.query._id})
 
             response(req, res, activity, 'Level-2', 'Delete-University', true, 200, university, 'Successfully Remove University');
         }
-        else {
-            response(req, res, activity, 'Level-3', 'Delete-University', true, 422, {}, 'Not Authorized to Delete University');
-        }
-
-    }
     catch (err: any) {
         response(req, res, activity, 'Level-3', 'Delete-University', false, 500, {}, errorMessage.internalServer, err.message);
     }
@@ -139,12 +129,11 @@ export let saveUniversity = async (req, res, next) => {
         try {
             const universityDetails: UniversityDocument = req.body;
             const { filename } = req.file
-            console.log("fileee", filename)
-            console.log("fileee", req.file)
+
             const createData = new University({ ...universityDetails, universityLogo: filename });
             let insertData = await createData.save();
-
-            response(req, res, activity, 'Level-2', 'Save-University', true, 200, insertData, clientError.success.savedSuccessfully);
+           
+            response(req, res, activity, 'Level-2', 'Save-University', true, 200, insertData , clientError.success.savedSuccessfully);
 
         } catch (err: any) {
             response(req, res, activity, 'Level-3', 'Save-University', false, 500, {}, errorMessage.internalServer, err.message);
