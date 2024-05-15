@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose'
 export interface UniversityDocument extends mongoose.Document {
     _id?: any;
     superAdminId?: any;
+    appliedStudentId?: any;
     universityName?: string; // University Name
     email?: string;
     universityLogo?: string; // University Logo (Optional)
@@ -25,6 +26,7 @@ export interface UniversityDocument extends mongoose.Document {
 const universitySchema = new mongoose.Schema({
     _id: { type: mongoose.Types.ObjectId, auto: true },
     superAdminId: {type: mongoose.Types.ObjectId, ref: 'SuperAdmin'},
+    appliedStudentId: {type: mongoose.Types.ObjectId, ref: 'Student'},
     universityName:{type: String},
     universityLogo: {type: String},
     email:{type: String},

@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getAllUniversity, getSingleUniversity, saveUniversity,updateUniversityBySuperAdmin, deleteUniversity} from '../controller/university.controller';
+import {getAllUniversity, getSingleUniversity, saveUniversity,updateUniversityBySuperAdmin, deleteUniversity, getFilteredUniversity, getFilteredUniversityForAppliedStudent} from '../controller/university.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -29,7 +29,7 @@ router.post('/',
         checkSession,
         // checkQuery('_id'),
         // checkRequestBodyParams('_id'),
-        upload.single('universityLogo'),
+        // upload.single('universityLogo'),
         saveUniversity
 );
 
@@ -50,5 +50,20 @@ router.delete('/', //delete university
     deleteUniversity
 );
 
+
+
+router.put('/getfilteruniversity',
+    basicAuthUser,
+    checkSession,
+    getFilteredUniversity,
+);
+
+
+
+router.put('/appliedstudent',    // Filter for Applied Student of University
+    basicAuthUser,
+    checkSession,
+    getFilteredUniversityForAppliedStudent,
+);
 
 export default router

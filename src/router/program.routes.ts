@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getAllProgram, getSingleProgram, createProgram,updateProgramBySuperAdmin, deleteProgram} from '../controller/program.controller';
+import {getAllProgram, getSingleProgram, createProgram,updateProgramBySuperAdmin, deleteProgram, getFilteredProgram, getFilteredProgramForAppliedStudent} from '../controller/program.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -24,13 +24,13 @@ router.get('/getsingleprogram',
 
 
 router.post('/', 
+        basicAuthUser,
         checkSession,
-        checkQuery('_id'),
         createProgram
 );
 
 
-router.put('/', // update 
+router.put('/',            // update 
     basicAuthUser,
     checkSession,
     checkQuery('_id'),
@@ -39,11 +39,26 @@ router.put('/', // update
 );
 
 
-router.delete('/', //delete program
+router.delete('/',             //delete program
     basicAuthUser,
     checkSession,
     checkQuery('_id'),
     deleteProgram
+);
+
+
+router.put('/getfilterprogram',
+    basicAuthUser,
+    checkSession,
+    getFilteredProgram,
+);
+
+
+
+router.put('/appliedstudent',    // Filter for Applied Student of University
+    basicAuthUser,
+    checkSession,
+    getFilteredProgramForAppliedStudent,
 );
 
 

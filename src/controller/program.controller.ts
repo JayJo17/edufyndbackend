@@ -37,28 +37,17 @@ export let createProgram = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
+            const programDetails: ProgramDocument = req.body;
+            const createData = new Program(programDetails);
+            let insertData = await createData.save();
            
-            const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
-          
-            if (superadmin) {
-                const programDetails: ProgramDocument = req.body;
-          
-                const createData = new Program(programDetails);
-                let insertData = await createData.save();
-             
-                response(req, res, activity, 'Level-2', 'Create-Program-By-Superadmin', true, 200, insertData, clientError.success.registerSuccessfully);
-            }
-            else {
-                response(req, res, activity, 'Level-3', 'Create-Program', true, 422, {}, 'Not Authorized to create Program');
-            }
+            response(req, res, activity, 'Level-2', 'Create-Program', true, 200, insertData , clientError.success.savedSuccessfully);
 
         } catch (err: any) {
-       
             response(req, res, activity, 'Level-3', 'Create-Program', false, 500, {}, errorMessage.internalServer, err.message);
         }
-    }
-    else {
-        response(req, res, activity, 'Level-3', 'Create-Program', false, 422, {}, errorMessage.notAuthorized, JSON.stringify(errors.mapped()));
+    } else {
+        response(req, res, activity, 'Level-3', 'Create-Program', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
     }
 }
 
@@ -112,21 +101,113 @@ export let updateProgramBySuperAdmin = async (req, res, next) => {
 export let deleteProgram = async (req, res, next) => {
   
     try {
-        const superadmin = await SuperAdmin.findOne({ _id: req.query.sup });
-     
-        if(superadmin){
-            let id = req.query._id;
-      
-            const program = await Program.findByIdAndDelete({ _id: id })
-           
-            response(req, res, activity, 'Level-2', 'Delete-Program', true, 200, program, 'Successfully Remove Program');
-        }
-        else {
-            response(req, res, activity, 'Level-3', 'Delete-Program', true, 422, {}, 'Not Authorized to Delete Program');
-        }
-      
+        const program = await Program.findOneAndDelete({ _id: req.query._id})
+
+        response(req, res, activity, 'Level-2', 'Delete-Program', true, 200, program, 'Successfully Remove Program');
     }
-    catch (err: any) {
-        response(req, res, activity, 'Level-3', 'Delete-Program', false, 500, {}, errorMessage.internalServer, err.message);
+catch (err: any) {
+    response(req, res, activity, 'Level-3', 'Delete-Program', false, 500, {}, errorMessage.internalServer, err.message);
+}
+};
+
+
+
+
+
+/**
+ * @author Balan K K
+ * @date 15-05-2024
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used to get filter Program Details
+ */
+
+export let getFilteredProgram = async (req, res, next) => {
+ 
+    try {
+
+        var findQuery;
+        var andList: any = []
+        var limit = req.body.limit ? req.body.limit : 0;
+        var page = req.body.page ? req.body.page : 0;
+        andList.push({ isDeleted: false })
+        andList.push({ status: 1 })
+        if(req.body.courseType){
+            andList.push({courseType:req.body.courseType})
+        }
+        if(req.body.universityId){
+            andList.push({universityId:req.body.universityId})
+        }
+        if (req.body.university) {
+            andList.push({ university: req.body.university  })
+        }
+        if (req.body.country) {
+            andList.push({ country: req.body.country })
+        }
+        if (req.body.campus) {
+            andList.push({ campus: req.body.campus })
+        }
+      
+   
+        findQuery = (andList.length > 0) ? { $and: andList } : {}
+    
+        const programList = await Program.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page)    
+       
+        const programCount = await Program.find(findQuery).count()
+        response(req, res, activity, 'Level-1', 'Get-FilterProgram', true, 200, { programList, programCount }, clientError.success.fetchedSuccessfully);
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-FilterProgram', false, 500, {}, errorMessage.internalServer, err.message);
     }
 };
+
+
+
+/**
+ * @author Balan K K
+ * @date 15-05-2024
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used to get filter Program Details for Applied student
+ */
+
+export let getFilteredProgramForAppliedStudent = async (req, res, next) => {
+    try {
+
+        var findQuery;
+        var andList: any = []
+        var limit = req.body.limit ? req.body.limit : 0;
+        var page = req.body.page ? req.body.page : 0;
+        andList.push({ isDeleted: false })
+        andList.push({ status: 1 })
+        if(req.body.universityId){
+            andList.push({universityId:req.body.universityId})
+        }
+        if(req.body.appliedStudentId){
+            andList.push({appliedStudentId:req.body.appliedStudentId})
+        }
+        if (req.body.universityName) {
+            andList.push({ universityName: req.body.universityName  })
+        }
+        if (req.body.country) {
+            andList.push({ country: req.body.country })
+        }
+        if (req.body.campus) {
+            andList.push({ campus: req.body.campus })
+        }
+        if(req.body.courseType){
+            andList.push({courseType:req.body.courseType})
+        }
+     
+        findQuery = (andList.length > 0) ? { $and: andList } : {}
+      
+        const programList = await Program.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('appliedStudentId',{name:1, email:1}).populate('universityName');
+       
+        const programCount = await Program.find(findQuery).count()
+        response(req, res, activity, 'Level-1', 'Get-FilterProgram For Applied-Student', true, 200, { programList, programCount }, clientError.success.fetchedSuccessfully);
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-FilterProgram For Applied-Student', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+};
+

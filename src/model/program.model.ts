@@ -3,6 +3,8 @@ import * as mongoose from 'mongoose'
 
 export interface ProgramDocument extends mongoose.Document{
     superAdminId?: any;
+    appliedStudentId?: any;
+    universityId?: any;
     university?: string;
     courseType?: string;
     programTitle?: any[];
@@ -19,6 +21,8 @@ export interface ProgramDocument extends mongoose.Document{
 const programSchema = new mongoose.Schema({
     _id: { type: mongoose.Types.ObjectId, required: true, auto: true },
     superAdminId: {type: mongoose.Types.ObjectId, ref: 'SuperAdmin'},
+    appliedStudentId: {type: mongoose.Types.ObjectId, ref: 'Student'},
+    universityId: {type: mongoose.Types.ObjectId, ref : 'University'},
     university: {type: String}, // (List Universities added)
     courseType: {type: String},  // (List) Add, Delete, View, Edit
     programTitle: [{

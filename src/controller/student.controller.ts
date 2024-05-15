@@ -126,7 +126,7 @@ export let deleteStudent = async (req, res, next) => {
     try {
         let id = req.query._id;
         const student = await Student.findByIdAndDelete({ _id: id })
-        // const notification = await Notification.deleteMany({ $or: [{ to: id }, { from: id }] })
+      
         response(req, res, activity, 'Level-2', 'Delete-Student', true, 200, student, 'Successfully Remove User');
     }
     catch (err: any) {
