@@ -67,11 +67,8 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
-            const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
-
-            if (superadmin) {
-                const universityDetails: UniversityDocument = req.body;
-                const updateData = await University.findOneAndUpdate({ _id: req.body._id }, {
+            const universityDetails: UniversityDocument = req.body;
+            let universityData = await University.findByIdAndUpdate({ _id: universityDetails._id },{
                     $set: {
                         universityName: universityDetails.universityName,
                         universityLogo: universityDetails.universityLogo,
@@ -97,14 +94,10 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
                         commissionPaidOn:universityDetails.commissionPaidOn,
 
                     }
-                })
-                response(req, res, activity, 'Level-2', 'Update-University', true, 200, updateData, clientError.success.updateSuccess);
-            }
-            else {
-                response(req, res, activity, 'Level-3', 'Update-University', true, 422, {}, 'Not Authorized to update University');
-            }
-
-        } catch (err: any) {
+                });
+                
+                response(req, res, activity, 'Level-2', 'Update-University', true, 200, universityData, clientError.success.updateSuccess);
+            } catch (err: any) {
             response(req, res, activity, 'Level-3', 'Update-University', false, 500, {}, errorMessage.internalServer, err.message);
         }
     }
@@ -185,6 +178,10 @@ export let getFilteredUniversity = async (req, res, next) => {
         if (req.body.ranking) {
             andList.push({ ranking: req.body.ranking })
         }
+        if (req.body.popularCategory) {
+            andList.push({ popularCategory: req.body.popularCategory })
+        }
+        
 
         findQuery = (andList.length > 0) ? { $and: andList } : {}
 

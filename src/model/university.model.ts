@@ -44,7 +44,7 @@ const universitySchema = new mongoose.Schema({
     popularCategory: { type: String },
     admissionRequirement: { type: String },
     offerTAT: { type: String },
-
+  // commission
     paymentMethod: { type: String, },
     amount: { type: String },
     percentage: { type: String },
@@ -53,6 +53,7 @@ const universitySchema = new mongoose.Schema({
     paymentTAT: { type: String },
     tax: { type: String },
     commissionPaidOn: { type: String },
+    //
     founded: { type: String },
     institutionType: { type: String },
     applicationFees: { type: String },
