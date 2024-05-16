@@ -271,10 +271,11 @@ export const csvToJson = async (req, res) => {
                     country: res[i].Country
                 })
             }
-            await University.insertMany(universityList)
+          await University.insertMany(universityList)
+           
         })
-        
         response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {}, 'Successfully CSV File Store Into Database');
+       
     } catch (err) {
         response(req, res, activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, errorMessage.internalServer, err.message);
     }

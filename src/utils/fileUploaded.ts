@@ -8,6 +8,7 @@ const storage = multer.diskStorage({
     destination: './images',
     filename: (req, file, cb)=>{
          return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+        
     }
  })
 
@@ -16,7 +17,6 @@ const storage = multer.diskStorage({
      storage: storage,
      limits: {fileSize: 1000000}
  })
-console.log(upload)
 
  export default upload
 
