@@ -86,11 +86,15 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
                         institutionType: universityDetails.institutionType,
                         applicationFees: universityDetails.applicationFees,
                         costOfLiving: universityDetails.costOfLiving,
-                        grossTuition: universityDetails.grossTuition
-
-                    },
-                    $addToSet: {
-                        commission: universityDetails.commission
+                        grossTuition: universityDetails.grossTuition,
+                        paymentMethod: universityDetails.paymentMethod,
+                        amount:universityDetails.amount,
+                        percentage: universityDetails.percentage,
+                        eligibilityForCommission: universityDetails.eligibilityForCommission,
+                        currency: universityDetails.currency,
+                        paymentTAT: universityDetails.paymentTAT,
+                        tax: universityDetails.tax,
+                        commissionPaidOn:universityDetails.commissionPaidOn,
 
                     }
                 })
