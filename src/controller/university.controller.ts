@@ -63,7 +63,7 @@ export let createUniversity = async (req, res, next) => {
 
 
 
-export let updateUniversityBySuperAdmin = async (req, res, next) => {
+export let updateUniversity = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
@@ -178,8 +178,8 @@ export let getFilteredUniversity = async (req, res, next) => {
         if (req.body.ranking) {
             andList.push({ ranking: req.body.ranking })
         }
-        if (req.body.popularCategory) {
-            andList.push({ popularCategory: req.body.popularCategory })
+        if (req.body.popularCategories) {
+            andList.push({ popularCategories: req.body.popularCategories })
         }
         
 
@@ -202,10 +202,10 @@ export let getFilteredUniversity = async (req, res, next) => {
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
- * @description This Function is used to get filter University Details for Applied student
+ * @description This Function is used to get filter University Details for Agent
  */
 
-export let getFilteredUniversityForAppliedStudent = async (req, res, next) => {
+export let getFilteredUniversityForAgent = async (req, res, next) => {
     try {
 
         var findQuery;
@@ -217,8 +217,8 @@ export let getFilteredUniversityForAppliedStudent = async (req, res, next) => {
         if (req.body.universityId) {
             andList.push({ universityId: req.body.universityId })
         }
-        if (req.body.appliedStudentId) {
-            andList.push({ appliedStudentId: req.body.appliedStudentId })
+        if (req.body.agentId) {
+            andList.push({ agentId: req.body.agentId })
         }
         if (req.body.universityName) {
             andList.push({ universityName: req.body.universityName })
@@ -235,12 +235,62 @@ export let getFilteredUniversityForAppliedStudent = async (req, res, next) => {
 
         findQuery = (andList.length > 0) ? { $and: andList } : {}
 
-        const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('appliedStudentId', { name: 1, email: 1 })    //.populate('companyId',{companyName:1});
+        const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('agentId', { name: 1, email: 1, mobileNumber: 1 })    //.populate('companyId',{companyName:1});
 
         const universityCount = await University.find(findQuery).count()
-        response(req, res, activity, 'Level-1', 'Get-FilterUniversity-Applied-Student', true, 200, { universityList, universityCount }, clientError.success.fetchedSuccessfully);
+        response(req, res, activity, 'Level-1', 'Get-FilterUniversity-Agent', true, 200, { universityList, universityCount }, clientError.success.fetchedSuccessfully);
     } catch (err: any) {
-        response(req, res, activity, 'Level-3', 'Get-FilterUniversity-Applied-Student', false, 500, {}, errorMessage.internalServer, err.message);
+        response(req, res, activity, 'Level-3', 'Get-FilterUniversity-Agent', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+};
+
+
+
+/**
+ * @author Balan K K
+ * @date 15-05-2024
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used to get filter University Details for Student
+ */
+
+export let getFilteredUniversityForStudent = async (req, res, next) => {
+    try {
+
+        var findQuery;
+        var andList: any = []
+        var limit = req.body.limit ? req.body.limit : 0;
+        var page = req.body.page ? req.body.page : 0;
+        andList.push({ isDeleted: false })
+        andList.push({ status: 1 })
+        if (req.body.universityId) {
+            andList.push({ universityId: req.body.universityId })
+        }
+        if (req.body.studentId) {
+            andList.push({ studentId: req.body.studentId })
+        }
+        if (req.body.universityName) {
+            andList.push({ universityName: req.body.universityName })
+        }
+        if (req.body.country) {
+            andList.push({ country: req.body.country })
+        }
+        if (req.body.campus) {
+            andList.push({ campus: req.body.campus })
+        }
+        if (req.body.ranking) {
+            andList.push({ ranking: req.body.ranking })
+        }
+
+        findQuery = (andList.length > 0) ? { $and: andList } : {}
+
+        const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('studentId', { name: 1, email: 1, mobileNumber: 1 })    //.populate('companyId',{companyName:1});
+
+        const universityCount = await University.find(findQuery).count()
+        response(req, res, activity, 'Level-1', 'Get-FilterUniversity-Agent', true, 200, { universityList, universityCount }, clientError.success.fetchedSuccessfully);
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-FilterUniversity-Agent', false, 500, {}, errorMessage.internalServer, err.message);
     }
 };
 

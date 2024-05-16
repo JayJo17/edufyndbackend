@@ -33,7 +33,8 @@ export interface UniversityDocument extends mongoose.Document {
 const universitySchema = new mongoose.Schema({
     _id: { type: mongoose.Types.ObjectId, auto: true },
     superAdminId: { type: mongoose.Types.ObjectId, ref: 'SuperAdmin' },
-    appliedStudentId: { type: mongoose.Types.ObjectId, ref: 'Student' },
+    studentId: { type: mongoose.Types.ObjectId, ref: 'Student' },
+    agentId: { type: mongoose.Types.ObjectId, ref: 'Agent' },
     universityName: { type: String },
     universityLogo: { type: String },
     email: { type: String },
@@ -41,7 +42,7 @@ const universitySchema = new mongoose.Schema({
     campus: [{ type: String }],
     ranking: { type: String },
     averageFees: { type: String },
-    popularCategory: { type: String },
+    popularCategories: { type: String },
     admissionRequirement: { type: String },
     offerTAT: { type: String },
   // commission

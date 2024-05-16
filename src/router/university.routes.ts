@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllUniversity, getSingleUniversity, saveUniversity, updateUniversityBySuperAdmin, deleteUniversity, getFilteredUniversity, getFilteredUniversityForAppliedStudent, csvToJson } from '../controller/university.controller';
+import { getAllUniversity, getSingleUniversity, saveUniversity, updateUniversity, deleteUniversity, getFilteredUniversity, csvToJson, getFilteredUniversityForAgent, getFilteredUniversityForStudent } from '../controller/university.controller';
 import { checkQuery, checkRequestBodyParams } from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -35,9 +35,9 @@ router.post('/',
 router.put('/', // update 
     basicAuthUser,
     checkSession,
-    checkQuery('_id'),
+    // checkQuery('_id'),
     checkRequestBodyParams('_id'),
-    updateUniversityBySuperAdmin
+    updateUniversity
 );
 
 
@@ -48,10 +48,6 @@ router.delete('/', //delete university
     deleteUniversity
 );
 
-router.post('/import',      // CSV File to json and Store into Database
-    upload.single('file'),
-    csvToJson
-);
 
 router.put('/getfilteruniversity',
     basicAuthUser,
@@ -59,14 +55,24 @@ router.put('/getfilteruniversity',
     getFilteredUniversity,
 );
 
-
-
-router.put('/appliedstudent',    // Filter for Applied Student of University
+router.put('/agentfilteruniversity',
     basicAuthUser,
     checkSession,
-    getFilteredUniversityForAppliedStudent,
+    getFilteredUniversityForAgent,
 );
 
+
+router.put('/studentfilteruniversity',
+    basicAuthUser,
+    checkSession,
+    getFilteredUniversityForStudent,
+);
+
+
+router.post('/import',      // CSV File to json and Store into Database
+    upload.single('file'),
+    csvToJson
+);
 
 
 
