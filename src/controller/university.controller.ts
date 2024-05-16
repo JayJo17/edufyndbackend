@@ -193,7 +193,6 @@ export let getAllUniversityForWeb = async (req, res, next) => {
 
 export let getFilteredUniversity = async (req, res, next) => {
     try {
-
         var findQuery;
         var andList: any = []
         var limit = req.body.limit ? req.body.limit : 0;
@@ -218,8 +217,6 @@ export let getFilteredUniversity = async (req, res, next) => {
         if (req.body.popularCategories) {
             andList.push({ popularCategories: req.body.popularCategories })
         }
-        
-
         findQuery = (andList.length > 0) ? { $and: andList } : {}
 
         const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page)
