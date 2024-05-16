@@ -2,7 +2,7 @@ import multer = require('multer')
 import path = require('path')
 
 
-
+// router.use(express.static(path.resolve('public/upload')))
 
 const storage = multer.diskStorage({
     destination: './images',
@@ -16,6 +16,28 @@ const storage = multer.diskStorage({
      storage: storage,
      limits: {fileSize: 1000000}
  })
-
+console.log(upload)
 
  export default upload
+
+
+
+ //// Another Type
+
+
+ 
+
+// const storage = multer.diskStorage({
+//     destination: (req,file,cb)=>{
+//         cb(null, './images')
+//     },
+//     filename: (req,file,cb)=>{
+//         cb(null, file.originalname)
+//     }
+//  })
+
+ 
+//  const upload = multer({
+//      storage: storage,
+//      limits: {fileSize: 1000000}
+//  })

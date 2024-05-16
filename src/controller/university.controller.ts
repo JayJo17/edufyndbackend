@@ -3,6 +3,7 @@ import { SuperAdmin } from "../model/superAdmin.model";
 import { validationResult } from "express-validator";
 import { response, } from "../helper/commonResponseHandler";
 import { clientError, errorMessage } from "../helper/ErrorMessage";
+import csv = require('csvtojson')
 
 
 var activity = "University";
@@ -84,8 +85,8 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
                         founded: universityDetails.founded,
                         institutionType: universityDetails.institutionType,
                         applicationFees: universityDetails.applicationFees,
-                        costOfLiving:universityDetails.costOfLiving,
-                        grossTuition:universityDetails.grossTuition
+                        costOfLiving: universityDetails.costOfLiving,
+                        grossTuition: universityDetails.grossTuition
 
                     },
                     $addToSet: {
@@ -113,10 +114,10 @@ export let updateUniversityBySuperAdmin = async (req, res, next) => {
 export let deleteUniversity = async (req, res, next) => {
 
     try {
-            const university = await University.findOneAndDelete({ _id: req.query._id})
+        const university = await University.findOneAndDelete({ _id: req.query._id })
 
-            response(req, res, activity, 'Level-2', 'Delete-University', true, 200, university, 'Successfully Remove University');
-        }
+        response(req, res, activity, 'Level-2', 'Delete-University', true, 200, university, 'Successfully Remove University');
+    }
     catch (err: any) {
         response(req, res, activity, 'Level-3', 'Delete-University', false, 500, {}, errorMessage.internalServer, err.message);
     }
@@ -133,8 +134,8 @@ export let saveUniversity = async (req, res, next) => {
 
             const createData = new University(universityDetails);
             let insertData = await createData.save();
-           
-            response(req, res, activity, 'Level-2', 'Save-University', true, 200, insertData , clientError.success.savedSuccessfully);
+
+            response(req, res, activity, 'Level-2', 'Save-University', true, 200, insertData, clientError.success.savedSuccessfully);
 
         } catch (err: any) {
             response(req, res, activity, 'Level-3', 'Save-University', false, 500, {}, errorMessage.internalServer, err.message);
@@ -165,11 +166,11 @@ export let getFilteredUniversity = async (req, res, next) => {
         var page = req.body.page ? req.body.page : 0;
         andList.push({ isDeleted: false })
         andList.push({ status: 1 })
-        if(req.body.universityId){
-            andList.push({universityId:req.body.universityId})
+        if (req.body.universityId) {
+            andList.push({ universityId: req.body.universityId })
         }
         if (req.body.universityName) {
-            andList.push({ universityName: req.body.universityName  })
+            andList.push({ universityName: req.body.universityName })
         }
         if (req.body.country) {
             andList.push({ country: req.body.country })
@@ -180,11 +181,11 @@ export let getFilteredUniversity = async (req, res, next) => {
         if (req.body.ranking) {
             andList.push({ ranking: req.body.ranking })
         }
-    
+
         findQuery = (andList.length > 0) ? { $and: andList } : {}
-        
-        const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page)    
-   
+
+        const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page)
+
         const universityCount = await University.find(findQuery).count()
         response(req, res, activity, 'Level-1', 'Get-FilterUniversity', true, 200, { universityList, universityCount }, clientError.success.fetchedSuccessfully);
     } catch (err: any) {
@@ -212,14 +213,14 @@ export let getFilteredUniversityForAppliedStudent = async (req, res, next) => {
         var page = req.body.page ? req.body.page : 0;
         andList.push({ isDeleted: false })
         andList.push({ status: 1 })
-        if(req.body.universityId){
-            andList.push({universityId:req.body.universityId})
+        if (req.body.universityId) {
+            andList.push({ universityId: req.body.universityId })
         }
-        if(req.body.appliedStudentId){
-            andList.push({appliedStudentId:req.body.appliedStudentId})
+        if (req.body.appliedStudentId) {
+            andList.push({ appliedStudentId: req.body.appliedStudentId })
         }
         if (req.body.universityName) {
-            andList.push({ universityName: req.body.universityName  })
+            andList.push({ universityName: req.body.universityName })
         }
         if (req.body.country) {
             andList.push({ country: req.body.country })
@@ -230,14 +231,52 @@ export let getFilteredUniversityForAppliedStudent = async (req, res, next) => {
         if (req.body.ranking) {
             andList.push({ ranking: req.body.ranking })
         }
-     
+
         findQuery = (andList.length > 0) ? { $and: andList } : {}
-      
-        const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('appliedStudentId',{name:1, email:1})    //.populate('companyId',{companyName:1});
-       
+
+        const universityList = await University.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('appliedStudentId', { name: 1, email: 1 })    //.populate('companyId',{companyName:1});
+
         const universityCount = await University.find(findQuery).count()
         response(req, res, activity, 'Level-1', 'Get-FilterUniversity-Applied-Student', true, 200, { universityList, universityCount }, clientError.success.fetchedSuccessfully);
     } catch (err: any) {
         response(req, res, activity, 'Level-3', 'Get-FilterUniversity-Applied-Student', false, 500, {}, errorMessage.internalServer, err.message);
     }
 };
+
+
+
+/**
+ * @author Balan K K
+ * @date 16-05-2024
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used CSV file to JSON and Store to Database
+ */
+
+
+export const csvToJson = async (req, res) => {
+
+    try {
+        let universityList = []
+
+        csv().fromFile(req.file.path).then(async (res) => {
+            console.log(req.file.path)
+
+            for (let i = 0; i < res.length; i++) {
+                universityList.push({
+                    universityName: res[i].UniversityName,
+                    campus: res[i].Campus,
+                    averageFees: res[i].AverageFees,
+                    country: res[i].Country
+                })
+            }
+            await University.insertMany(universityList)
+        })
+        
+        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {}, 'Successfully CSV File Store Into Database');
+    } catch (err) {
+        response(req, res, activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+
+}
