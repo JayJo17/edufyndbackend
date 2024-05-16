@@ -29,6 +29,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "@types/multer": "^1.4.11",
     "ts-node-dev": "^2.0.0"
   }
 }

@@ -3,11 +3,31 @@ import {getAllUniversity, getSingleUniversity, saveUniversity,updateUniversityBy
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
-import upload from '../utils/fileUploaded';
+
+
+import multer = require('multer')
+import path  = require('path')
 
 const router:Router=Router();
 
 
+// router.use(express.static(path.resolve('public/upload')))
+
+
+
+const storage = multer.diskStorage({
+    destination: (req,file,cb)=>{
+        cb(null, './images')
+    },
+    filename: (req,file,cb)=>{
+        cb(null, file.originalname)
+    }
+ })
+ 
+ const upload = multer({
+     storage: storage,
+     limits: {fileSize: 1000000}
+ })
 
 router.get('/getalluniversity', //get all university
     basicAuthUser,
@@ -65,5 +85,8 @@ router.put('/appliedstudent',    // Filter for Applied Student of University
     checkSession,
     getFilteredUniversityForAppliedStudent,
 );
+
+
+router.post('/import', upload.single('file'),)
 
 export default router
