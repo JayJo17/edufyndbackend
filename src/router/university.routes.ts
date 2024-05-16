@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllUniversity, getSingleUniversity, saveUniversity, updateUniversity, deleteUniversity, getFilteredUniversity, csvToJson, getFilteredUniversityForAgent, getFilteredUniversityForStudent } from '../controller/university.controller';
+import { getAllUniversity, getSingleUniversity, saveUniversity, updateUniversity, deleteUniversity, getFilteredUniversity, csvToJson, getFilteredUniversityForAgent, getFilteredUniversityForStudent, getAllUniversityForWeb } from '../controller/university.controller';
 import { checkQuery, checkRequestBodyParams } from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -54,6 +54,12 @@ router.put('/getfilteruniversity',
     checkSession,
     getFilteredUniversity,
 );
+
+router.get('/getalluniversityforweb', // get all university for web //without checking session
+    basicAuthUser,
+    getAllUniversityForWeb
+);
+
 
 router.put('/agentfilteruniversity',
     basicAuthUser,

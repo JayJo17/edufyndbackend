@@ -143,7 +143,24 @@ export let saveUniversity = async (req, res, next) => {
 };
 
 
+/**
+ * @author Santhosh Khan K
+ * @date   17-10-2023
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used to get All University For Web
+ */
 
+export let getAllUniversityForWeb = async (req, res, next) => {
+    try {
+        const universityDetails = await University.find({isDeleted: false}).sort({ createdAt: -1 });
+        response(req, res, activity, 'Level-2', 'Get-All-University', true, 200, universityDetails, clientError.success.fetchedSuccessfully);   
+    }
+    catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-All-University', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+};
 
 /**
  * @author Balan K K
