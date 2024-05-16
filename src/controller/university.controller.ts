@@ -126,9 +126,6 @@ export let saveUniversity = async (req, res, next) => {
     if (errors.isEmpty()) {
         try {
             const universityDetails: UniversityDocument = req.body;
-            // const { filename } = req.file
-            // const createData = new University({ ...universityDetails, universityLogo: filename });
-
             const createData = new University(universityDetails);
             let insertData = await createData.save();
 
@@ -143,9 +140,32 @@ export let saveUniversity = async (req, res, next) => {
 };
 
 
+export let universityLogo = async (req, res, next) => {
+    console.log("logoooo")
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        try {
+         
+            const { filename } = req.file
+            const profile_url = `http://localhost:4409/profile/${req.file.filename}`
+            const createData = new University({universityLogo: profile_url });
+            
+            let insertData = await createData.save();
+        
+            response(req, res, activity, 'Level-2', 'University-Logo-Uploaded', true, 200, insertData, clientError.success.savedSuccessfully);
+
+        } catch (err: any) {
+            response(req, res, activity, 'Level-3', 'University-Logo-Uploaded', false, 500, {}, errorMessage.internalServer, err.message);
+        }
+    } else {
+        response(req, res, activity, 'Level-3', 'University-Logo-Uploaded', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
+    }
+};
+
+
 /**
  * @author Santhosh Khan K
- * @date   17-10-2023
+ * @date   16-05-2024
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
@@ -164,7 +184,7 @@ export let getAllUniversityForWeb = async (req, res, next) => {
 
 /**
  * @author Balan K K
- * @date 15-05-2024
+ * @date 16-05-2024
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
@@ -215,7 +235,7 @@ export let getFilteredUniversity = async (req, res, next) => {
 
 /**
  * @author Balan K K
- * @date 15-05-2024
+ * @date 16-05-2024
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
