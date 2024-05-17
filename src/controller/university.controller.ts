@@ -71,6 +71,7 @@ export let updateUniversity = async (req, res, next) => {
             let universityData = await University.findByIdAndUpdate({ _id: universityDetails._id },{
                     $set: {
                         universityName: universityDetails.universityName,
+                        banner: universityDetails.banner,
                         universityLogo: universityDetails.universityLogo,
                         country: universityDetails.country,
                         campus: universityDetails.campus,

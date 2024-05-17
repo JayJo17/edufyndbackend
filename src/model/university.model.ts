@@ -6,6 +6,7 @@ export interface UniversityDocument extends mongoose.Document {
     appliedStudentId?: any;
     universityName?: string; // University Name
     email?: string;
+    banner?: string;
     universityLogo?: string; // University Logo (Optional)
     country?: string; // Country
     campus?: string;
@@ -36,6 +37,7 @@ const universitySchema = new mongoose.Schema({
     studentId: { type: mongoose.Types.ObjectId, ref: 'Student' },
     agentId: { type: mongoose.Types.ObjectId, ref: 'Agent' },
     universityName: { type: String },
+    banner: {type: String},
     universityLogo: { type: String },
     email: { type: String },
     country: { type: String },
