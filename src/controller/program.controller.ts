@@ -55,15 +55,12 @@ export let createProgram = async (req, res, next) => {
 
 
 
-export let updateProgramBySuperAdmin = async (req, res, next) => {
+export let updateProgram = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
-            const superadmin = await SuperAdmin.findOne({ _id: req.query._id });
-
-            if (superadmin) {
                 const programDetails: ProgramDocument = req.body;
-                const updateData = await Program.findOneAndUpdate({ _id: req.body._id }, {
+                let updateData = await Program.findByIdAndUpdate({ _id: programDetails._id }, {
                     $set: {
                         university: programDetails.university,
                         courseType: programDetails.courseType,
@@ -71,23 +68,16 @@ export let updateProgramBySuperAdmin = async (req, res, next) => {
                         currency: programDetails.currency,
                         amount:programDetails.amount,
                         discountedValue:programDetails.discountedValue,
-
                         englishlanguageTest: programDetails.englishlanguageTest,
-
                         universityInterview: programDetails.universityInterview,
                         GRE_GMAT_requirement: programDetails.GRE_GMAT_requirement,
-
                         academicRequirement: programDetails.academicRequirement,
                         commission: programDetails.commission
                     },
 
                 })
                 response(req, res, activity, 'Level-2', 'Update-Program', true, 200, updateData, clientError.success.updateSuccess);
-            }
-            else {
-                response(req, res, activity, 'Level-3', 'Update-Program', true, 422, {}, 'Not Authorized to update Program');
-            }
-
+            
         } catch (err: any) {
             response(req, res, activity, 'Level-3', 'Update-Program', false, 500, {}, errorMessage.internalServer, err.message);
         }

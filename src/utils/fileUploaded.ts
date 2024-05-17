@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
      storage: storage,
      limits: {fileSize: 1000000}
  })
-console.log("lll", upload)
+
  export default upload
 
 

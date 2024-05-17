@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getAllProgram, getSingleProgram, createProgram,updateProgramBySuperAdmin, deleteProgram, getFilteredProgram, getFilteredProgramForAppliedStudent} from '../controller/program.controller';
+import {getAllProgram, getSingleProgram, createProgram,updateProgram, deleteProgram, getFilteredProgram, getFilteredProgramForAppliedStudent} from '../controller/program.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -35,7 +35,7 @@ router.put('/',            // update
     checkSession,
     checkQuery('_id'),
     checkRequestBodyParams('_id'),
-    updateProgramBySuperAdmin
+    updateProgram
 );
 
 

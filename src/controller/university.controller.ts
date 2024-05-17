@@ -30,36 +30,23 @@ export let getSingleUniversity = async (req, res, next) => {
 }
 
 
-export let createUniversity = async (req, res, next) => {
+export let saveUniversity = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
+            const universityDetails: UniversityDocument = req.body;
+            const createData = new University(universityDetails);
+            let insertData = await createData.save();
 
-            const superadmin = await SuperAdmin.findOne({ _id: req.body.superAdminId });
-
-            if (superadmin) {
-                const universityDetails: UniversityDocument = req.body;
-
-                const createData = new University(universityDetails);
-                let insertData = await createData.save();
-
-                response(req, res, activity, 'Level-2', 'Create-University-By-Superadmin', true, 200, insertData, clientError.success.registerSuccessfully);
-            }
-            else {
-                response(req, res, activity, 'Level-3', 'Create-University', true, 422, {}, 'Not Authorized to create University');
-            }
+            response(req, res, activity, 'Level-2', 'Save-University', true, 200, insertData, clientError.success.savedSuccessfully);
 
         } catch (err: any) {
-
-            response(req, res, activity, 'Level-3', 'Create-University', false, 500, {}, errorMessage.internalServer, err.message);
+            response(req, res, activity, 'Level-3', 'Save-University', false, 500, {}, errorMessage.internalServer, err.message);
         }
+    } else {
+        response(req, res, activity, 'Level-3', 'Save-University', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
     }
-    else {
-        response(req, res, activity, 'Level-3', 'Create-University', false, 422, {}, errorMessage.notAuthorized, JSON.stringify(errors.mapped()));
-    }
-}
-
-
+};
 
 
 
@@ -68,37 +55,42 @@ export let updateUniversity = async (req, res, next) => {
     if (errors.isEmpty()) {
         try {
             const universityDetails: UniversityDocument = req.body;
-            let universityData = await University.findByIdAndUpdate({ _id: universityDetails._id },{
-                    $set: {
-                        universityName: universityDetails.universityName,
-                        banner: universityDetails.banner,
-                        universityLogo: universityDetails.universityLogo,
-                        country: universityDetails.country,
-                        campus: universityDetails.campus,
-                        ranking: universityDetails.ranking,
-                        averageFees: universityDetails.averageFees,
-                        popularCategories: universityDetails.popularCategories,
-                        admissionRequirement: universityDetails.admissionRequirement,
-                        offerTAT: universityDetails.offerTAT,
-                        founded: universityDetails.founded,
-                        institutionType: universityDetails.institutionType,
-                        applicationFees: universityDetails.applicationFees,
-                        costOfLiving: universityDetails.costOfLiving,
-                        grossTuition: universityDetails.grossTuition,
-                        paymentMethod: universityDetails.paymentMethod,
-                        amount:universityDetails.amount,
-                        percentage: universityDetails.percentage,
-                        eligibilityForCommission: universityDetails.eligibilityForCommission,
-                        currency: universityDetails.currency,
-                        paymentTAT: universityDetails.paymentTAT,
-                        tax: universityDetails.tax,
-                        commissionPaidOn:universityDetails.commissionPaidOn,
+            let universityData = await University.findByIdAndUpdate({ _id: universityDetails._id }, {
+                $set: {
+                    universityName: universityDetails.universityName,
+                    banner: universityDetails.banner,
+                    universityLogo: universityDetails.universityLogo,
+                    country: universityDetails.country,
+                    campus: universityDetails.campus,
+                    ranking: universityDetails.ranking,
+                    averageFees: universityDetails.averageFees,
+                    popularCategories: universityDetails.popularCategories,
+                    admissionRequirement: universityDetails.admissionRequirement,
+                    offerTAT: universityDetails.offerTAT,
+                    inTake:  universityDetails.inTake,
+                    spring: universityDetails.spring,
+                    summer:  universityDetails.summer,
+                    winter: universityDetails.winter,
+                    fall:  universityDetails.fall,
+                    founded: universityDetails.founded,
+                    institutionType: universityDetails.institutionType,
+                    applicationFees: universityDetails.applicationFees,
+                    costOfLiving: universityDetails.costOfLiving,
+                    grossTuition: universityDetails.grossTuition,
+                    paymentMethod: universityDetails.paymentMethod,
+                    amount: universityDetails.amount,
+                    percentage: universityDetails.percentage,
+                    eligibilityForCommission: universityDetails.eligibilityForCommission,
+                    currency: universityDetails.currency,
+                    paymentTAT: universityDetails.paymentTAT,
+                    tax: universityDetails.tax,
+                    commissionPaidOn: universityDetails.commissionPaidOn,
 
-                    }
-                });
-                
-                response(req, res, activity, 'Level-2', 'Update-University', true, 200, universityData, clientError.success.updateSuccess);
-            } catch (err: any) {
+                }
+            });
+
+            response(req, res, activity, 'Level-2', 'Update-University', true, 200, universityData, clientError.success.updateSuccess);
+        } catch (err: any) {
             response(req, res, activity, 'Level-3', 'Update-University', false, 500, {}, errorMessage.internalServer, err.message);
         }
     }
@@ -122,37 +114,21 @@ export let deleteUniversity = async (req, res, next) => {
 };
 
 
-export let saveUniversity = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (errors.isEmpty()) {
-        try {
-            const universityDetails: UniversityDocument = req.body;
-            const createData = new University(universityDetails);
-            let insertData = await createData.save();
 
-            response(req, res, activity, 'Level-2', 'Save-University', true, 200, insertData, clientError.success.savedSuccessfully);
-
-        } catch (err: any) {
-            response(req, res, activity, 'Level-3', 'Save-University', false, 500, {}, errorMessage.internalServer, err.message);
-        }
-    } else {
-        response(req, res, activity, 'Level-3', 'Save-University', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
-    }
-};
 
 
 export let universityLogo = async (req, res, next) => {
-    console.log("logoooo")
+
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
-         
+
             const { filename } = req.file
             const profile_url = `http://localhost:4409/profile/${req.file.filename}`
-            const createData = new University({universityLogo: profile_url });
-            
+            const createData = new University({ universityLogo: profile_url });
+
             let insertData = await createData.save();
-        
+
             response(req, res, activity, 'Level-2', 'University-Logo-Uploaded', true, 200, insertData, clientError.success.savedSuccessfully);
 
         } catch (err: any) {
@@ -165,7 +141,7 @@ export let universityLogo = async (req, res, next) => {
 
 
 /**
- * @author Santhosh Khan K
+ * @author Balan K K
  * @date   16-05-2024
  * @param {Object} req 
  * @param {Object} res 
@@ -175,8 +151,8 @@ export let universityLogo = async (req, res, next) => {
 
 export let getAllUniversityForWeb = async (req, res, next) => {
     try {
-        const universityDetails = await University.find({isDeleted: false}).sort({ createdAt: -1 });
-        response(req, res, activity, 'Level-2', 'Get-All-University', true, 200, universityDetails, clientError.success.fetchedSuccessfully);   
+        const universityDetails = await University.find({ isDeleted: false }).sort({ createdAt: -1 });
+        response(req, res, activity, 'Level-2', 'Get-All-University', true, 200, universityDetails, clientError.success.fetchedSuccessfully);
     }
     catch (err: any) {
         response(req, res, activity, 'Level-3', 'Get-All-University', false, 500, {}, errorMessage.internalServer, err.message);
@@ -357,11 +333,11 @@ export const csvToJson = async (req, res) => {
                     country: res[i].Country
                 })
             }
-          await University.insertMany(universityList)
-           
+            await University.insertMany(universityList)
+
         })
         response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {}, 'Successfully CSV File Store Into Database');
-       
+
     } catch (err) {
         response(req, res, activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, errorMessage.internalServer, err.message);
     }

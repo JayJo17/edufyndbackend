@@ -8,7 +8,7 @@ const router: Router = Router();
 
 
 
-router.get('/getalluniversity', //get all university
+router.get('/getalluniversity',                //get all university
     basicAuthUser,
     checkSession,
     getAllUniversity
@@ -28,14 +28,11 @@ router.post('/',
     checkSession,
     // checkQuery('_id'),
     // checkRequestBodyParams('_id'),
- 
     saveUniversity
 );
 
 
-router.post('/logo', upload.single('Logo'),universityLogo);
-
-router.put('/', // update 
+router.put('/',                    // update 
     basicAuthUser,
     checkSession,
     // checkQuery('_id'),
@@ -44,7 +41,7 @@ router.put('/', // update
 );
 
 
-router.delete('/', //delete university
+router.delete('/',                  //delete university
     basicAuthUser,
     checkSession,
     checkQuery('_id'),
@@ -58,7 +55,7 @@ router.put('/getfilteruniversity',
     getFilteredUniversity,
 );
 
-router.get('/getalluniversityforweb', // get all university for web //without checking session
+router.get('/getalluniversityforweb',         // get all university for web //without checking session
     basicAuthUser,
     getAllUniversityForWeb
 );
@@ -77,6 +74,11 @@ router.put('/studentfilteruniversity',
     getFilteredUniversityForStudent,
 );
 
+
+router.post('/logo',
+    upload.single('logo'),
+    universityLogo
+);
 
 router.post('/import',      // CSV File to json and Store into Database
     upload.single('file'),
