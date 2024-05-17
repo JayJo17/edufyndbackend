@@ -44,12 +44,9 @@ const programSchema = new mongoose.Schema({
     Duration: { type: String }, // (Month & Year in numbers like 1 - 12),
     englishlanguageTest: { type: String },   // (ELT) requirement – Yes/No (Text Box)
     textBox: { type: String },
-
     universityInterview : { type: String },   // – Yes/No
-
     GRE_GMAT_requirement : { type: String },  //(Yes/No) If yes mention score
     score: { type: String },
-
     academicRequirement : { type: String },     //(Text Box)
     commission: { type: String }           // (Edit only for the program)
  

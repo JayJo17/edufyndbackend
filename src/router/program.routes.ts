@@ -6,14 +6,11 @@ import { checkSession } from '../utils/tokenManager';
 
 const router:Router=Router();
 
-
-
 router.get('/getallprogram', //get all program
     basicAuthUser,
      checkSession,
     getAllProgram
 );
-
 
 router.get('/getsingleprogram',
     basicAuthUser,
@@ -21,7 +18,6 @@ router.get('/getsingleprogram',
     checkQuery('_id'),
     getSingleProgram,
 );
-
 
 router.post('/', 
         basicAuthUser,

@@ -4,30 +4,17 @@ import { clientError, errorMessage } from '../helper/ErrorMessage';
 const activity = 'token';
 
 /**
- * @author Ponjothi S
- * @date 07-09-2023
+ * @author Balan K K
+ * @date 01-05-2024
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
  * @description This Function is used to token creation
  */
 
-// export let CreateJWTToken = (data: any = {}) => {
-//     let tokenData = {};
-//     if (data && data['companyName']) {
-//         tokenData['companyName'] = data['companyName']
-//     }
-//     if (data && data['companyId']) {
-//         tokenData['companyId'] = data['companyId']
-//     }
-  
-//     const token = jwt.sign(tokenData, 'pixaliveworks', { expiresIn: '8h' });
-//     return token;
-// }
-
 
 export let CreateJWTToken = (data: any = {}) => {
-    console.log("jwttokkkken", data)
+
     let tokenData = {};
     if (data && data['name']) {
         tokenData['name'] = data['name']
