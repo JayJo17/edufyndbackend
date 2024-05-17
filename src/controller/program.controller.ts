@@ -62,12 +62,17 @@ export let updateProgram = async (req, res, next) => {
                 const programDetails: ProgramDocument = req.body;
                 let updateData = await Program.findByIdAndUpdate({ _id: programDetails._id }, {
                     $set: {
-                        university: programDetails.university,
+                        universityName: programDetails.universityName,
+                        country: programDetails.country,
                         courseType: programDetails.courseType,
                         applicationFee: programDetails.applicationFee,
                         currency: programDetails.currency,
                         amount:programDetails.amount,
                         discountedValue:programDetails.discountedValue,
+                        campus:programDetails.campus,
+                        courseFees:programDetails.courseFees,
+                        intake:programDetails.intake,
+                        duration:programDetails.duration,
                         englishlanguageTest: programDetails.englishlanguageTest,
                         universityInterview: programDetails.universityInterview,
                         GRE_GMAT_requirement: programDetails.GRE_GMAT_requirement,
@@ -102,7 +107,24 @@ export let deleteProgram = async (req, res, next) => {
 };
 
 
+/**
+ * @author Balan K K
+ * @date   17-05-2024
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used to get All Program For Web
+ */
 
+export let getAllProgramForWeb = async (req, res, next) => {
+    try {
+        const programDetails = await Program.find({ isDeleted: false }).sort({ createdAt: -1 });
+        response(req, res, activity, 'Level-2', 'Get-All-Program', true, 200, programDetails, clientError.success.fetchedSuccessfully);
+    }
+    catch (err: any) {
+        response(req, res, activity, 'Level-3', 'Get-All-Program', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+};
 
 
 /**
@@ -193,7 +215,7 @@ export let getFilteredProgramForAppliedStudent = async (req, res, next) => {
 
         findQuery = (andList.length > 0) ? { $and: andList } : {}
 
-        const programList = await Program.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('appliedStudentId', { name: 1, email: 1 }).populate('universityName');
+        const programList = await Program.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('studentId', { name: 1, email: 1, mobileNumber: 1 }).populate('universityName');
 
         const programCount = await Program.find(findQuery).count()
         response(req, res, activity, 'Level-1', 'Get-FilterProgram For Applied-Student', true, 200, { programList, programCount }, clientError.success.fetchedSuccessfully);

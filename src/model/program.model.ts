@@ -5,12 +5,17 @@ export interface ProgramDocument extends mongoose.Document {
     superAdminId?: any;
     appliedStudentId?: any;
     universityId?: any;
-    university?: string;
+    universityName?: string;
+    country?: string;
     courseType?: string;
     applicationFee?: string;
     currency?: string;
     amount?: string;
     discountedValue?: string;
+    campus?: string;
+    courseFees?: string;
+    intake?: string;
+    duration?: string;
     englishlanguageTest?: string;
     textBox?: string;
     universityInterview?: string;
@@ -26,7 +31,8 @@ const programSchema = new mongoose.Schema({
     superAdminId: { type: mongoose.Types.ObjectId, ref: 'SuperAdmin' },
     appliedStudentId: { type: mongoose.Types.ObjectId, ref: 'Student' },
     universityId: { type: mongoose.Types.ObjectId, ref: 'University' },
-    university: { type: String }, // (List Universities added)
+    universityName: { type: String }, // (List Universities added)
+    country: {type: String},
     courseType: { type: String },  // (List) Add, Delete, View, Edit
     applicationFee: { type: String },
     currency: { type: String },
