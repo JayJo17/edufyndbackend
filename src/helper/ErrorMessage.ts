@@ -43,7 +43,8 @@ export let errorMessage = {
     fieldValidation: 'Field Validation Failed',
     notAuthorized: 'Not Authorized',
     cantdelete: 'Cannot Delete as it is already in use !',
-    cantChangestatus: 'Cannot Change the Status'
+    cantChangestatus: 'Cannot Change the Status',
+
 }
 
 

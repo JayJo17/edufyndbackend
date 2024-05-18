@@ -1,6 +1,6 @@
 /**
- * @author Ponjothi S
- * @date  07-09-2023
+ * @author Balan K K
+ * @date  01-05-2024
  * @description Authentication Methods
  */
 
@@ -24,3 +24,4 @@ export let basicAuthUser = function (req, res, next) {
         next();
     }
 }
+
