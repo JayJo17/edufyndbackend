@@ -8,6 +8,7 @@ export interface ProgramDocument extends mongoose.Document {
     universityName?: string;
     country?: string;
     courseType?: string;
+    programTitle?: string;
     applicationFee?: string;
     currency?: string;
     flag?: string;
@@ -34,15 +35,14 @@ const programSchema = new mongoose.Schema({
     universityName: { type: String }, // (List Universities added)
     country: {type: String},
     courseType: { type: String },  // (List) Add, Delete, View, Edit
+    programTitle: {type: String},
     applicationFee: { type: String },
     currency: { type: String },
     flag: {type: String},
     discountedValue: { type: String },
     campus: { type: String },  //(Fetch campus details from ‘UNIVERSITY’ based on the university selected) / (Multiple Add) 
     courseFee: { type: String },  // (To be added for each campus)
-   
-   inTake: {type: String},
-
+    inTake: {type: String},
     Duration: { type: String }, // (Month & Year in numbers like 1 - 12),
     englishlanguageTest: { type: String },   // (ELT) requirement – Yes/No (Text Box)
     textBox: { type: String },

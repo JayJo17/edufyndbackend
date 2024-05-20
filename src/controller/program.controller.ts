@@ -60,30 +60,31 @@ export let updateProgram = async (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
-                const programDetails: ProgramDocument = req.body;
-                let updateData = await Program.findByIdAndUpdate({ _id: programDetails._id }, {
-                    $set: {
-                        universityName: programDetails.universityName,
-                        country: programDetails.country,
-                        courseType: programDetails.courseType,
-                        applicationFee: programDetails.applicationFee,
-                        currency: programDetails.currency,
-                        flag: programDetails.flag,
-                        discountedValue:programDetails.discountedValue,
-                        campus:programDetails.campus,
-                        courseFees:programDetails.courseFees,
-                        inTake:programDetails.inTake,
-                        duration:programDetails.duration,
-                        englishlanguageTest: programDetails.englishlanguageTest,
-                        universityInterview: programDetails.universityInterview,
-                        greGmatRequirement: programDetails.greGmatRequirement,
-                        academicRequirement: programDetails.academicRequirement,
-                        commission: programDetails.commission
-                    },
+            const programDetails: ProgramDocument = req.body;
+            let updateData = await Program.findByIdAndUpdate({ _id: programDetails._id }, {
+                $set: {
+                    universityName: programDetails.universityName,
+                    country: programDetails.country,
+                    courseType: programDetails.courseType,
+                    programTitle: programDetails.programTitle,
+                    applicationFee: programDetails.applicationFee,
+                    currency: programDetails.currency,
+                    flag: programDetails.flag,
+                    discountedValue: programDetails.discountedValue,
+                    campus: programDetails.campus,
+                    courseFees: programDetails.courseFees,
+                    inTake: programDetails.inTake,
+                    duration: programDetails.duration,
+                    englishlanguageTest: programDetails.englishlanguageTest,
+                    universityInterview: programDetails.universityInterview,
+                    greGmatRequirement: programDetails.greGmatRequirement,
+                    academicRequirement: programDetails.academicRequirement,
+                    commission: programDetails.commission
+                },
 
-                })
-                response(req, res, activity, 'Level-2', 'Update-Program', true, 200, updateData, clientError.success.updateSuccess);
-            
+            })
+            response(req, res, activity, 'Level-2', 'Update-Program', true, 200, updateData, clientError.success.updateSuccess);
+
         } catch (err: any) {
             response(req, res, activity, 'Level-3', 'Update-Program', false, 500, {}, errorMessage.internalServer, err.message);
         }
@@ -244,8 +245,6 @@ export const csvToJson = async (req, res) => {
         let programList = []
 
         csv().fromFile(req.file.path).then(async (res) => {
-            console.log(req.file.path)
-
             for (let i = 0; i < res.length; i++) {
                 programList.push({
                     universityName: res[i].UniversityName,

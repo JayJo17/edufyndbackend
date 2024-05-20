@@ -45,7 +45,7 @@ export let checkSession = async (req, res, next) => {
     console.log("token", token)
     if (token) {
         const headerType = token.split(' ')[0];
-        console.log("kljh",headerType)
+  
         const tokenValue = token.split(' ')[1].trim();
         if (headerType.trim() === "Bearer") {
             try {
