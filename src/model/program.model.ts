@@ -13,11 +13,14 @@ export interface ProgramDocument extends mongoose.Document {
     discountedValue?: string;
     campus?: string;
     courseFees?: string;
-    inTake?: string;
-    spring?: string;
-    summer?: string;
-    winter?: string;
-    fall?: string;
+    springStartDate?: Date;
+    springEndDate?: Date;
+    summerStartDate?: Date;
+    summerEndDate?: Date;
+    winterStartDate?: Date;
+    winterEndDate?: Date;
+    fallStartDate?: Date;
+    fallEndDate?: Date;
     duration?: string;
     englishlanguageTest?: string;
     textBox?: string;
@@ -42,11 +45,16 @@ const programSchema = new mongoose.Schema({
     discountedValue: { type: String },
     campus: { type: String },  //(Fetch campus details from ‘UNIVERSITY’ based on the university selected) / (Multiple Add) 
     courseFee: { type: String },  // (To be added for each campus)
-    inTake: { type: String },
-    spring: {type: String},
-    summer: {type: String},
-    winter: {type: String},
-    fall: {type: String},
+   
+    springStartDate: {type: Date},
+    springEndDate: {type: Date},
+    summerStartDate: {type: Date},
+    summerEndDate: {type: Date},
+    winterStartDate: {type: Date},
+    winterEndDate: {type: Date},
+    fallStartDate: {type: Date},
+    fallEndDate: {type: Date},
+
     Duration: { type: String }, // (Month & Year in numbers like 1 - 12),
     englishlanguageTest: { type: String },   // (ELT) requirement – Yes/No (Text Box)
     textBox: { type: String },
