@@ -67,11 +67,14 @@ export let updateProgram = async (req, res, next) => {
                         courseType: programDetails.courseType,
                         applicationFee: programDetails.applicationFee,
                         currency: programDetails.currency,
-                        amount:programDetails.amount,
                         discountedValue:programDetails.discountedValue,
                         campus:programDetails.campus,
                         courseFees:programDetails.courseFees,
-                        intake:programDetails.intake,
+                        inTake:  programDetails.inTake,
+                        spring: programDetails.spring,
+                        summer:  programDetails.summer,
+                        winter: programDetails.winter,
+                        fall:  programDetails.fall,
                         duration:programDetails.duration,
                         englishlanguageTest: programDetails.englishlanguageTest,
                         universityInterview: programDetails.universityInterview,
@@ -115,6 +118,7 @@ export let deleteProgram = async (req, res, next) => {
  * @param {Function} next  
  * @description This Function is used to get All Program For Web
  */
+
 
 export let getAllProgramForWeb = async (req, res, next) => {
     try {
