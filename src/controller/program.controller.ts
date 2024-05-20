@@ -3,6 +3,7 @@ import { SuperAdmin } from "../model/superAdmin.model";
 import { validationResult } from 'express-validator'
 import { response } from '../helper/commonResponseHandler'
 import { clientError, errorMessage } from '../helper/ErrorMessage'
+import csv = require('csvtojson')
 
 
 var activity = "Program"
@@ -81,7 +82,7 @@ export let updateProgram = async (req, res, next) => {
                         duration:programDetails.duration,
                         englishlanguageTest: programDetails.englishlanguageTest,
                         universityInterview: programDetails.universityInterview,
-                        GRE_GMAT_requirement: programDetails.GRE_GMAT_requirement,
+                        greGmatRequirement: programDetails.greGmatRequirement,
                         academicRequirement: programDetails.academicRequirement,
                         commission: programDetails.commission
                     },
@@ -231,3 +232,41 @@ export let getFilteredProgramForAppliedStudent = async (req, res, next) => {
     }
 };
 
+
+
+/**
+ * @author Balan K K
+ * @date 16-05-2024
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used CSV file to JSON and Store to Database
+ */
+
+
+export const csvToJson = async (req, res) => {
+
+    try {
+        let programList = []
+
+        csv().fromFile(req.file.path).then(async (res) => {
+            console.log(req.file.path)
+
+            for (let i = 0; i < res.length; i++) {
+                programList.push({
+                    universityName: res[i].UniversityName,
+                    campus: res[i].Campus,
+                    applicationFee: res[i].ApplicationFee,
+                    country: res[i].Country
+                })
+            }
+            await Program.insertMany(programList)
+
+        })
+        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {}, 'Successfully CSV File Store Into Database');
+
+    } catch (err) {
+        response(req, res, activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, errorMessage.internalServer, err.message);
+    }
+
+}

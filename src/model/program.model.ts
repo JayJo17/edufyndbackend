@@ -25,7 +25,7 @@ export interface ProgramDocument extends mongoose.Document {
     englishlanguageTest?: string;
     textBox?: string;
     universityInterview?: string;
-    GRE_GMAT_requirement?: string;
+    greGmatRequirement?: string;
     score?: string;
     academicRequirement?: string;
     commission?: string;
@@ -59,7 +59,7 @@ const programSchema = new mongoose.Schema({
     englishlanguageTest: { type: String },   // (ELT) requirement – Yes/No (Text Box)
     textBox: { type: String },
     universityInterview : { type: String },   // – Yes/No
-    GRE_GMAT_requirement : { type: String },  //(Yes/No) If yes mention score
+    greGmatRequirement : { type: String },  //(Yes/No) If yes mention score
     score: { type: String },
     academicRequirement : { type: String },     //(Text Box)
     commission: { type: String }           // (Edit only for the program)
