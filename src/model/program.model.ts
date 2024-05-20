@@ -43,7 +43,7 @@ const programSchema = new mongoose.Schema({
     campus: { type: String },  //(Fetch campus details from ‘UNIVERSITY’ based on the university selected) / (Multiple Add) 
     courseFee: { type: String },  // (To be added for each campus)
     inTake: {type: String},
-    Duration: { type: String }, // (Month & Year in numbers like 1 - 12),
+    duration: { type: String }, // (Month & Year in numbers like 1 - 12),
     englishlanguageTest: { type: String },   // (ELT) requirement – Yes/No (Text Box)
     textBox: { type: String },
     universityInterview : { type: String },   // – Yes/No

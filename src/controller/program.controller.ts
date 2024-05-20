@@ -206,9 +206,7 @@ export let getFilteredProgramForAppliedStudent = async (req, res, next) => {
         var page = req.body.page ? req.body.page : 0;
         andList.push({ isDeleted: false })
         andList.push({ status: 1 })
-        if (req.body.universityId) {
-            andList.push({ universityId: req.body.universityId })
-        }
+  
         if (req.body.appliedStudentId) {
             andList.push({ appliedStudentId: req.body.appliedStudentId })
         }
