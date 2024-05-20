@@ -241,7 +241,7 @@ export let getFilteredProgramForAppliedStudent = async (req, res, next) => {
 
 /**
  * @author Balan K K
- * @date 16-05-2024
+ * @date 20-05-2024
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
