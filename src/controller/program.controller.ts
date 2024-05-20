@@ -71,14 +71,7 @@ export let updateProgram = async (req, res, next) => {
                         discountedValue:programDetails.discountedValue,
                         campus:programDetails.campus,
                         courseFees:programDetails.courseFees,
-                        springStartDate: programDetails.springStartDate,
-                        springEndDate:programDetails.springEndDate,
-                        summerStartDate: programDetails.summerStartDate,
-                        summerEndDate:programDetails.summerEndDate,
-                        winterStartDate: programDetails.winterStartDate,
-                        winterEndDate: programDetails.winterEndDate,
-                        fallStartDate: programDetails.fallStartDate,
-                        fallEndDate: programDetails.fallEndDate,
+                        inTake:programDetails.inTake,
                         duration:programDetails.duration,
                         englishlanguageTest: programDetails.englishlanguageTest,
                         universityInterview: programDetails.universityInterview,
@@ -160,8 +153,8 @@ export let getFilteredProgram = async (req, res, next) => {
         if (req.body.universityId) {
             andList.push({ universityId: req.body.universityId })
         }
-        if (req.body.university) {
-            andList.push({ university: req.body.university })
+        if (req.body.universityName) {
+            andList.push({ universityName: req.body.universityName })
         }
         if (req.body.country) {
             andList.push({ country: req.body.country })

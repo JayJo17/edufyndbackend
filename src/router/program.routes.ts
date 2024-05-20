@@ -1,8 +1,9 @@
 import {Router} from 'express';
-import {getAllProgram, getSingleProgram, createProgram,updateProgram, deleteProgram, getFilteredProgram, getFilteredProgramForAppliedStudent} from '../controller/program.controller';
+import {getAllProgram, getSingleProgram, createProgram,updateProgram, deleteProgram, getFilteredProgram, getFilteredProgramForAppliedStudent, csvToJson} from '../controller/program.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
+import upload from '../utils/fileUploaded';
 
 const router:Router=Router();
 
@@ -57,5 +58,10 @@ router.put('/appliedstudent',    // Filter for Applied Student of University
     getFilteredProgramForAppliedStudent,
 );
 
+
+router.post('/import',      // CSV File to json and Store into Database
+    upload.single('program'),
+    csvToJson
+);
 
 export default router
