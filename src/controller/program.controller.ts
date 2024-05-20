@@ -149,15 +149,7 @@ export let getFilteredProgram = async (req, res, next) => {
         var page = req.body.page ? req.body.page : 0;
         andList.push({ isDeleted: false })
         andList.push({ status: 1 })
-        if (req.body.courseType) {
-            andList.push({ courseType: req.body.courseType })
-        }
-        if (req.body.programTitle) {
-            andList.push({ programTitle: req.body.programTitle })
-        }
-        if (req.body.universityId) {
-            andList.push({ universityId: req.body.universityId })
-        }
+      
         if (req.body.universityName) {
             andList.push({ universityName: req.body.universityName })
         }
@@ -167,8 +159,22 @@ export let getFilteredProgram = async (req, res, next) => {
         if (req.body.campus) {
             andList.push({ campus: req.body.campus })
         }
-
-
+        if (req.body.courseType) {
+            andList.push({ courseType: req.body.courseType })
+        }
+        if (req.body.programTitle) {
+            andList.push({ programTitle: req.body.programTitle })
+        }
+        if (req.body.universityInterview) {
+            andList.push({ universityInterview: req.body.universityInterview })
+        }
+        if (req.body.englishlanguageTest) {
+            andList.push({ englishlanguageTest: req.body.englishlanguageTest })
+        }
+        if (req.body.courseFee) {
+            andList.push({ courseFee: req.body.courseFee })
+        }
+    
         findQuery = (andList.length > 0) ? { $and: andList } : {}
 
         const programList = await Program.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page)
@@ -208,6 +214,9 @@ export let getFilteredProgramForAppliedStudent = async (req, res, next) => {
         }
         if (req.body.universityName) {
             andList.push({ universityName: req.body.universityName })
+        }
+        if (req.body.programTitle) {
+            andList.push({ programTitle: req.body.programTitle })
         }
         if (req.body.country) {
             andList.push({ country: req.body.country })
