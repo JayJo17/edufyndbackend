@@ -152,6 +152,9 @@ export let getFilteredProgram = async (req, res, next) => {
         if (req.body.courseType) {
             andList.push({ courseType: req.body.courseType })
         }
+        if (req.body.programTitle) {
+            andList.push({ programTitle: req.body.programTitle })
+        }
         if (req.body.universityId) {
             andList.push({ universityId: req.body.universityId })
         }

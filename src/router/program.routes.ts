@@ -30,7 +30,7 @@ router.post('/',
 router.put('/',            // update 
     basicAuthUser,
     checkSession,
-    checkQuery('_id'),
+    // checkQuery('_id'),
     checkRequestBodyParams('_id'),
     updateProgram
 );
