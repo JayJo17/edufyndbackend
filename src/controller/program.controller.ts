@@ -154,6 +154,9 @@ export let getFilteredProgram = async (req, res, next) => {
         if (req.body.universityName) {
             andList.push({ universityName: req.body.universityName })
         }
+        if (req.body.universityId) {
+            andList.push({ universityId: req.body.universityId })
+        }
         if (req.body.country) {
             andList.push({ country: req.body.country })
         }
@@ -184,50 +187,6 @@ export let getFilteredProgram = async (req, res, next) => {
         response(req, res, activity, 'Level-1', 'Get-FilterProgram', true, 200, { programList, programCount }, clientError.success.fetchedSuccessfully);
     } catch (err: any) {
         response(req, res, activity, 'Level-3', 'Get-FilterProgram', false, 500, {}, errorMessage.internalServer, err.message);
-    }
-};
-
-
-/**
- * @author Balan K K
- * @date 15-05-2024
- * @param {Object} req 
- * @param {Object} res 
- * @param {Function} next  
- * @description This Function is used to get filter Program Details with University Details
- */
-
-export let getFilteredProgramWithUniversity = async (req, res, next) => {
-    try {
-
-        var findQuery;
-        var andList: any = []
-        var limit = req.body.limit ? req.body.limit : 0;
-        var page = req.body.page ? req.body.page : 0;
-        andList.push({ isDeleted: false })
-        andList.push({ status: 1 })
-        console.log("kkkk", req.body.universityId)
-        if (req.body.universityId) {
-            andList.push({ universityId: req.body.universityId })
-        }
-        if (req.body.universityName) {
-            const universityMatch = await University.findOne({ universityName: req.body.universityName, isDeleted: false, status: 1 });
-            if (universityMatch) {
-                andList.push({ universityId: universityMatch._id });
-            } else {
-                response(req, res,activity, 'Level-1', 'Get-FilterProgram With University', false, 404, {}, 'University not found');
-            }
-        }
-       
-
-        findQuery = (andList.length > 0) ? { $and: andList } : {}
-        console.log("oooo", findQuery)
-        const programList = await Program.find(findQuery).sort({ createdAt: -1 }).limit(limit).skip(page).populate('universityId', {universityName:1})
-        console.log("mmm", programList)
-        const programCount = await Program.find(findQuery).count()
-        response(req, res, activity, 'Level-1', 'Get-FilterProgram With University', true, 200, { programList, programCount }, clientError.success.fetchedSuccessfully);
-    } catch (err: any) {
-        response(req, res, activity, 'Level-3', 'Get-FilterProgram With University', false, 500, {}, errorMessage.internalServer, err.message);
     }
 };
 

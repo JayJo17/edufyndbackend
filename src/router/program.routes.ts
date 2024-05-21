@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {getAllProgram, getSingleProgram, createProgram,updateProgram, deleteProgram, getFilteredProgram, getFilteredProgramForAppliedStudent, csvToJson, getAllProgramForWeb, getFilteredProgramWithUniversity} from '../controller/program.controller';
+import {getAllProgram, getSingleProgram, createProgram,updateProgram, deleteProgram, getFilteredProgram, getFilteredProgramForAppliedStudent, csvToJson, getAllProgramForWeb} from '../controller/program.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -54,15 +54,6 @@ router.put('/getfilterprogram',
     checkSession,
     getFilteredProgram,
 );
-
-
-
-router.put('/getfilterprogramwithuniversity',
-    basicAuthUser,
-    // checkSession,
-    getFilteredProgramWithUniversity,
-);
-
 
 
 router.put('/appliedstudent',    // Filter for Applied Student of University
