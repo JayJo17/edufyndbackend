@@ -13,6 +13,7 @@ import { body } from 'express-validator';
  */
 
 export let checkQuery = (id) => {
+    console.log("mmm",id)
     return query(id, ErrorMessage.id.required).isLength({ min: 1 }).trim().exists()
 }
 

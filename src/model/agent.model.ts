@@ -26,6 +26,9 @@ export interface AgentDocument extends mongoose.Document {
   // Two field can be disabled must be enabled
    //•Agent ID (Auto Generated)
    //  agentPayout: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AgentPayout' }],
+
+
+   
 const agentSchema = new mongoose.Schema({
      //•Agent ID (Auto Generated)
      _id: { type: mongoose.Types.ObjectId, required: true, auto: true },

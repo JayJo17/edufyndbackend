@@ -279,3 +279,102 @@ export const csvToJson = async (req, res) => {
     }
 
 }
+
+
+
+//////////////////////////////////////////////
+
+
+
+
+
+export const getProgramsByUniversityName = async (req, res,next) => {
+    try {
+        const universityName = req.query.universityName;
+
+        if (!universityName) {
+            return res.status(400).json({
+                success: false,
+                message: 'University name is required'
+            });
+        }
+
+        // Aggregation pipeline
+        const aggregationPipeline = [
+            {
+                $lookup: {
+                    from: 'universities',
+                    localField: 'universityId',
+                    foreignField: '_id',
+                    as: 'universityDetails'
+                }
+            },
+            { $unwind: '$universityDetails' },
+            {
+                $match: {
+                    'universityDetails.universityName': universityName,
+                    'universityDetails.isDeleted': false,
+                    'universityDetails.status': 1,
+                    isDeleted: false,
+                    status: 1
+                }
+            },
+            {
+                $project: {
+                    programTitle: 1,
+                    campus: 1,
+                    'universityDetails.universityName': 1,
+                    'universityDetails.country': 1
+                }
+            }
+        ];
+
+        const programs = await Program.aggregate(aggregationPipeline);
+
+        if (programs.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No programs found for the given university name'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: programs
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+
+
+
+// export let getSingleUniversityForProgram = async (req, res, next) => {
+//     try {
+//         const _id = req.query.universityId
+//         const productDetails = await Program.find({_id},{universityName:1})
+//         console.log("aaa", productDetails)
+//         response(req, res, activity, 'Level-2', 'Get-Product', true, 200, productDetails, clientError.success.fetchedSuccessfully);
+//     }
+//     catch (err: any) {
+//         response(req, res, activity, 'Level-3', 'Get-Product', false, 500, {}, errorMessage.internalServer, err.message);
+//     }
+// }
+
+
+export const getSingleUniversityForProgram = async (req, res, next) => {
+    try {
+        const program = await Program.findOne({ _id: req.query.universityId })
+        console.log("aaa", program)
+        response(req, res, activity, 'Level-1', 'GetSingle-Program', true, 200, program, clientError.success.fetchedSuccessfully)
+
+    } catch (err: any) {
+        response(req, res, activity, 'Level-3', 'GetSingle-Program', false, 500, {}, errorMessage.internalServer, err.message)
+
+    }
+}
