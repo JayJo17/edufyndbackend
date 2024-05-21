@@ -70,7 +70,7 @@ router.put('/agentfilteruniversity',
 
 router.put('/studentfilteruniversity',
     basicAuthUser,
-    checkSession,
+    // checkSession,
     getFilteredUniversityForStudent,
 );
 

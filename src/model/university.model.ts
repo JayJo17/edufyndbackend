@@ -8,7 +8,8 @@ export interface UniversityDocument extends mongoose.Document {
     email?: string;
     banner?: string;
     universityLogo?: string; // University Logo (Optional)
-    country?: string; // Country
+    countryName?: string; // Country
+    flag?: string;
     campus?: string;
     ranking?: string; // Ranking (Optional)
     averageFees?: number; // Average Fees
@@ -45,7 +46,8 @@ const universitySchema = new mongoose.Schema({
     banner: {type: String},
     universityLogo: { type: String },
     email: { type: String },
-    country: { type: String },
+    countryName: { type: String },
+    flag: {type: String},
     campus: [{ type: String }],
     ranking: { type: String },
     averageFees: { type: String },
