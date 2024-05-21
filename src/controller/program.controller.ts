@@ -178,6 +178,9 @@ export let getFilteredProgram = async (req, res, next) => {
         if (req.body.courseFee) {
             andList.push({ courseFee: req.body.courseFee })
         }
+        if (req.body.inTake) {
+            andList.push({ inTake: req.body.inTake })
+        }
     
         findQuery = (andList.length > 0) ? { $and: andList } : {}
 
