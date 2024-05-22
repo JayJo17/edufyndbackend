@@ -5,6 +5,7 @@ import { validationResult } from 'express-validator'
 import { response } from '../helper/commonResponseHandler'
 import { clientError, errorMessage } from '../helper/ErrorMessage'
 import csv = require('csvtojson')
+import mongoose from 'mongoose'
 
 
 var activity = "Program"
@@ -329,6 +330,7 @@ export const getProgramsByUniversityName = async (req, res,next) => {
             {
                 $project: {
                     programTitle: 1,
+                    country:1,
                     campus: 1,
                     universityName: 1,
                     'universityDetails.universityName': 1,
@@ -362,87 +364,71 @@ export const getProgramsByUniversityName = async (req, res,next) => {
 
 
 
-// export const getProgramsByUniversityNamee = async (req, res) => {
-//     console.log("balan")
-//     try {
-//         const universityId = req.query.universityId;
 
-//         if (!universityId) {
-//             return res.status(400).json({success: false,message: 'University name is required'});
-//         }
+export const getProgramsByUniversityNamee = async (req, res) => {
+    try {
+        const universityId = req.query.universityId;
 
-//         // Find the university by name
-//         const university = await Program.find({ universityId,isDeleted: false,status: 1 });
-//         console.log("ooo", university)
+        if (!universityId) {
+            return res.status(400).json({
+                success: false,
+                message: 'University ID is required'
+            });
+        }
 
-//         if (!university) {
-//             return res.status(404).json({success: false,message: 'University not found'});
-//         }
-// // console.log("8888", university._id)
-//         // Find programs for the found university
-//         const programs = await Program.find({universityId, isDeleted: false,status: 1})
-//         .populate('universityId', 'universityName country');
-//         console.log("mm", programs)
+        // Convert universityId to ObjectId if it's not already
+        const mongoose = require('mongoose');
+        const objectId = new mongoose.Types.ObjectId(universityId);
+console.log("aa", objectId)
+        // Aggregation pipeline
+        const aggregationPipeline = [
+            // {
+            //     $match: {
+            //         universityId: objectId,
+            //         // isDeleted: false,
+            //         // status: 1
+            //     }
+            // },
+            {
+                $lookup: {
+                    from: 'universities',
+                    localField: 'universityId',
+                    foreignField: '_id',
+                    as: 'universityDetails'
+                }
+            },
+            // { $unwind: '$universityDetails' },
+            {
+                $project: {
+                    programTitle: 1,
+                    campus: 1,
+                    'universityDetails.universityName': 1,
+                    'universityDetails.country': 1
+                }
+            }
+        ];
 
-//         if (programs.length === 0) {
-//             return res.status(404).json({success: false,message: 'No programs found for the given university' });
-//         }
+        const programs = await Program.aggregate(aggregationPipeline);
 
-//         res.status(200).json({success: true,data: programs});
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({success: false, message: 'Server error'});
-//     }
-// };
+        if (programs.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No programs found for the given university'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: programs
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
 
 
-// export const getProgramsByUniversityNamee = async (req, res) => {
-//     try {
-//         const universityId = req.query.universityId;
-
-//         if (!universityId) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: 'University name is required'
-//             });
-//         }
-
-//         // Find the university by name
-//         const university = await University.findOne({
-//             universityId: universityId,
-//             isDeleted: false,
-//             status: 1
-//         });
-
-//         console.log("ll", university)
-
-//         if (!university) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'University not found'
-//             });
-//         }
-
-//         // Find students who applied to the found university
-//         const students = await Program.find({universityId: req.query.universityId}).populate('universityId');
-
-//         if (students.length === 0) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'No students found for the given university'
-//             });
-//         }
-
-//         res.status(200).json({
-//             success: true,
-//             data: students
-//         });
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({
-//             success: false,
-//             message: 'Server error'
-//         });
-//     }
-// };
 
