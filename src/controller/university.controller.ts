@@ -61,6 +61,7 @@ export let updateUniversity = async (req, res, next) => {
                     banner: universityDetails.banner,
                     universityLogo: universityDetails.universityLogo,
                     countryName: universityDetails.countryName,
+                    country: universityDetails.country,
                     flag: universityDetails.flag,
                     campus: universityDetails.campus,
                     ranking: universityDetails.ranking,
@@ -327,7 +328,7 @@ export const csvToJson = async (req, res) => {
             for (let i = 0; i < res.length; i++) {
                 universityList.push({
                     universityName: res[i].universityName ,
-                    countryName: res[i].countryName,
+                    country: res[i].country,
                     campus: res[i].campus,
                     ranking: res[i].ranking,
                     applicationFees: res[i].applicationFees,
@@ -339,7 +340,7 @@ export const csvToJson = async (req, res) => {
                     costOfLiving: res[i].costOfLiving,
                     admissionRequirement: res[i].admissionRequirement,
                     grossTuition: res[i].grossTuition,
-                    // country: res[i].PGCOURSE,
+                 
                 })
             }
             await University.insertMany(universityList)

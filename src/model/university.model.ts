@@ -9,6 +9,7 @@ export interface UniversityDocument extends mongoose.Document {
     banner?: string;
     universityLogo?: string; // University Logo (Optional)
     countryName?: string; // Country
+    country?: string;
     flag?: string;
     campus?: string;
     ranking?: string; // Ranking (Optional)
@@ -46,6 +47,7 @@ const universitySchema = new mongoose.Schema({
     banner: {type: String},
     universityLogo: { type: String },
     email: { type: String },
+    country: {type: String},
     countryName: { type: String },
     flag: {type: String},
     campus: [{ type: String }],
