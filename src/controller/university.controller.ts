@@ -326,19 +326,19 @@ export const csvToJson = async (req, res) => {
         csv().fromFile(req.file.path).then(async (res) => {
             for (let i = 0; i < res.length; i++) {
                 universityList.push({
-                    universityName: res[i].UNIVERSITY ,
-                    countryName: res[i].COUNTRY,
-                    campus: res[i].CAMPUS,
-                    ranking: res[i].RANKING,
-                    applicationFees: res[i].APPLICATIONFEES,
-                    averageFees: res[i].AVERAGEFEES,
-                    popularCategories: res[i].POPULARCATEGORIES,
-                    offerTAT: res[i].OFFERTAT,
-                    founded: res[i].FOUNDED,
-                    institutionType: res[i].INSTITUTIONTYPE,
-                    costOfLiving: res[i].COSTOFLIVING,
-                    admissionRequirement: res[i].ADMISSIONREQUIREMENT,
-                    grossTuition: res[i].GROSSTUITION,
+                    universityName: res[i].universityName ,
+                    countryName: res[i].countryName,
+                    campus: res[i].campus,
+                    ranking: res[i].ranking,
+                    applicationFees: res[i].applicationFees,
+                    averageFees: res[i].averageFees,
+                    popularCategories: res[i].popularCategories,
+                    offerTAT: res[i].offerTAT,
+                    founded: res[i].founded,
+                    institutionType: res[i].institutionType,
+                    costOfLiving: res[i].costOfLiving,
+                    admissionRequirement: res[i].admissionRequirement,
+                    grossTuition: res[i].grossTuition,
                     // country: res[i].PGCOURSE,
                 })
             }
