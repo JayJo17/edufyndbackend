@@ -324,14 +324,22 @@ export const csvToJson = async (req, res) => {
         let universityList = []
 
         csv().fromFile(req.file.path).then(async (res) => {
-            console.log(req.file.path)
-
             for (let i = 0; i < res.length; i++) {
                 universityList.push({
-                    universityName: res[i].UniversityName,
-                    campus: res[i].Campus,
-                    averageFees: res[i].AverageFees,
-                    country: res[i].Country
+                    universityName: res[i].UNIVERSITY ,
+                    countryName: res[i].COUNTRY,
+                    campus: res[i].CAMPUS,
+                    ranking: res[i].RANKING,
+                    applicationFees: res[i].APPLICATIONFEES,
+                    averageFees: res[i].AVERAGEFEES,
+                    popularCategories: res[i].POPULARCATEGORIES,
+                    offerTAT: res[i].OFFERTAT,
+                    founded: res[i].FOUNDED,
+                    institutionType: res[i].INSTITUTIONTYPE,
+                    costOfLiving: res[i].COSTOFLIVING,
+                    admissionRequirement: res[i].ADMISSIONREQUIREMENT,
+                    grossTuition: res[i].GROSSTUITION,
+                    // country: res[i].PGCOURSE,
                 })
             }
             await University.insertMany(universityList)

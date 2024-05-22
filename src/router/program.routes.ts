@@ -78,7 +78,7 @@ router.post('/import',      // CSV File to json and Store into Database
 
 router.get('/',            
   
-    checkQuery('universityName'),
+    checkQuery('universityId'),
     getProgramsByUniversityName
     
 );

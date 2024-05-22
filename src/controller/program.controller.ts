@@ -290,7 +290,7 @@ export const csvToJson = async (req, res) => {
 
 export const getProgramsByUniversityName = async (req, res,next) => {
     try {
-        const universityName = req.query.universityName;
+        const universityName = req.query.universityId;
 
         if (!universityName) {
             return res.status(400).json({
@@ -301,6 +301,7 @@ export const getProgramsByUniversityName = async (req, res,next) => {
 
         // Aggregation pipeline
         const aggregationPipeline = [
+       
             {
                 $lookup: {
                     from: 'universities',
@@ -309,20 +310,25 @@ export const getProgramsByUniversityName = async (req, res,next) => {
                     as: 'universityDetails'
                 }
             },
-            { $unwind: '$universityDetails' },
-            {
+                  {
                 $match: {
+                    // universityName: "Vickram college of university"
                     'universityDetails.universityName': universityName,
-                    'universityDetails.isDeleted': false,
-                    'universityDetails.status': 1,
-                    isDeleted: false,
-                    status: 1
+               
+                    // 'universityDetails.isDeleted': false,
+                    // 'universityDetails.status': 1,
+                    // isDeleted: false,
+                    // status: 1
                 }
             },
+            // {
+            //     $group: { _id: "$universityName" }
+            //  },
             {
                 $project: {
                     programTitle: 1,
                     campus: 1,
+                    universityName: 1,
                     'universityDetails.universityName': 1,
                     'universityDetails.country': 1
                 }
@@ -330,6 +336,7 @@ export const getProgramsByUniversityName = async (req, res,next) => {
         ];
 
         const programs = await Program.aggregate(aggregationPipeline);
+        console.log("lll", programs)
 
         if (programs.length === 0) {
             return res.status(404).json({
