@@ -290,14 +290,16 @@ export const csvToJson = async (req, res) => {
 
 export const getProgramsByUniversityName = async (req, res,next) => {
     try {
-        const universityName = req.query.universityId;
+        const universityId = req.query.universityId;
 
-        if (!universityName) {
+        if (!universityId) {
             return res.status(400).json({
                 success: false,
                 message: 'University name is required'
             });
         }
+
+        console.log("jj",universityId)
 
         // Aggregation pipeline
         const aggregationPipeline = [
@@ -310,17 +312,17 @@ export const getProgramsByUniversityName = async (req, res,next) => {
                     as: 'universityDetails'
                 }
             },
-                  {
-                $match: {
-                    // universityName: "Vickram college of university"
-                    'universityDetails.universityName': universityName,
+            //       {
+            //     $match: {
+            //         // universityName: "Vickram college of university"
+            //         // 'universityDetails.universityName': universityId,
                
-                    // 'universityDetails.isDeleted': false,
-                    // 'universityDetails.status': 1,
-                    // isDeleted: false,
-                    // status: 1
-                }
-            },
+            //         // 'universityDetails.isDeleted': false,
+            //         // 'universityDetails.status': 1,
+            //         // isDeleted: false,
+            //         // status: 1
+            //     }
+            // },
             // {
             //     $group: { _id: "$universityName" }
             //  },
@@ -341,7 +343,7 @@ export const getProgramsByUniversityName = async (req, res,next) => {
         if (programs.length === 0) {
             return res.status(404).json({
                 success: false,
-                message: 'No programs found for the given university name'
+                message: 'No programs found for the given university namemmmm'
             });
         }
 
@@ -360,28 +362,87 @@ export const getProgramsByUniversityName = async (req, res,next) => {
 
 
 
-
-// export let getSingleUniversityForProgram = async (req, res, next) => {
+// export const getProgramsByUniversityNamee = async (req, res) => {
+//     console.log("balan")
 //     try {
-//         const _id = req.query.universityId
-//         const productDetails = await Program.find({_id},{universityName:1})
-//         console.log("aaa", productDetails)
-//         response(req, res, activity, 'Level-2', 'Get-Product', true, 200, productDetails, clientError.success.fetchedSuccessfully);
+//         const universityId = req.query.universityId;
+
+//         if (!universityId) {
+//             return res.status(400).json({success: false,message: 'University name is required'});
+//         }
+
+//         // Find the university by name
+//         const university = await Program.find({ universityId,isDeleted: false,status: 1 });
+//         console.log("ooo", university)
+
+//         if (!university) {
+//             return res.status(404).json({success: false,message: 'University not found'});
+//         }
+// // console.log("8888", university._id)
+//         // Find programs for the found university
+//         const programs = await Program.find({universityId, isDeleted: false,status: 1})
+//         .populate('universityId', 'universityName country');
+//         console.log("mm", programs)
+
+//         if (programs.length === 0) {
+//             return res.status(404).json({success: false,message: 'No programs found for the given university' });
+//         }
+
+//         res.status(200).json({success: true,data: programs});
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({success: false, message: 'Server error'});
 //     }
-//     catch (err: any) {
-//         response(req, res, activity, 'Level-3', 'Get-Product', false, 500, {}, errorMessage.internalServer, err.message);
+// };
+
+
+// export const getProgramsByUniversityNamee = async (req, res) => {
+//     try {
+//         const universityId = req.query.universityId;
+
+//         if (!universityId) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: 'University name is required'
+//             });
+//         }
+
+//         // Find the university by name
+//         const university = await University.findOne({
+//             universityId: universityId,
+//             isDeleted: false,
+//             status: 1
+//         });
+
+//         console.log("ll", university)
+
+//         if (!university) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: 'University not found'
+//             });
+//         }
+
+//         // Find students who applied to the found university
+//         const students = await Program.find({universityId: req.query.universityId}).populate('universityId');
+
+//         if (students.length === 0) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: 'No students found for the given university'
+//             });
+//         }
+
+//         res.status(200).json({
+//             success: true,
+//             data: students
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             success: false,
+//             message: 'Server error'
+//         });
 //     }
-// }
+// };
 
-
-export const getSingleUniversityForProgram = async (req, res, next) => {
-    try {
-        const program = await Program.findOne({ _id: req.query.universityId })
-        console.log("aaa", program)
-        response(req, res, activity, 'Level-1', 'GetSingle-Program', true, 200, program, clientError.success.fetchedSuccessfully)
-
-    } catch (err: any) {
-        response(req, res, activity, 'Level-3', 'GetSingle-Program', false, 500, {}, errorMessage.internalServer, err.message)
-
-    }
-}
