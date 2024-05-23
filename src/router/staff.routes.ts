@@ -20,7 +20,7 @@ router.get('/getsinglestaff',
 );
 
 
-router.post('/',
+router.post('/',           // create staff
     basicAuthUser,
     checkSession,
     // checkQuery('_id'),

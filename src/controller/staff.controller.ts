@@ -43,7 +43,6 @@ export let createStaff = async (req, res, next) => {
 };
 
 
-
 export const updateStaff = async (req, res) => {
     const errors = validationResult(req)
     if (errors.isEmpty()) {
@@ -79,9 +78,6 @@ export const updateStaff = async (req, res) => {
         response(req, res, activity, 'Level-3', 'Update-Staff Details', false, 422, {}, errorMessage.fieldValidation, JSON.stringify(errors.mapped()));
     }
 }
-
-
-
 
 export let deleteStaff = async (req, res, next) => {
   

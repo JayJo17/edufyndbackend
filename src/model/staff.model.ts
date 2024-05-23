@@ -26,8 +26,6 @@ export interface StaffDocument extends mongoose.Document {
     teamLead?: string;     // – Select Employees and permission to be viewed.
 }
 
-
-
 const staffSchema = new mongoose.Schema({
     employeeID: {type: mongoose.Types.ObjectId},
     photo: {type: String},
@@ -52,6 +50,4 @@ const staffSchema = new mongoose.Schema({
     teamLead: {type: String}     // – Select Employees and permission to be viewed.
 
 })
-
-
 export const Staff = mongoose.model('Staff', staffSchema)

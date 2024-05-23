@@ -23,10 +23,6 @@ const storage = multer.diskStorage({
 
 
  //// Another Type
-
-
- 
-
 // const storage = multer.diskStorage({
 //     destination: (req,file,cb)=>{
 //         cb(null, './images')
