@@ -318,42 +318,39 @@ export let getFilteredUniversityForStudent = async (req, res, next) => {
  * @description This Function is used CSV file to JSON and Store to Database
  */
 
-
 export const csvToJson = async (req, res) => {
-
     try {
-        let universityList = []
-
-        csv().fromFile(req.file.path).then(async (res) => {
-            for (let i = 0; i < res.length; i++) {
-                universityList.push({
-                    universityName: res[i].universityName ,
-                    country: res[i].country,
-                    campus: res[i].campus,
-                    ranking: res[i].ranking,
-                    applicationFees: res[i].applicationFees,
-                    averageFees: res[i].averageFees,
-                    popularCategories: res[i].popularCategories,
-                    offerTAT: res[i].offerTAT,
-                    founded: res[i].founded,
-                    institutionType: res[i].institutionType,
-                    costOfLiving: res[i].costOfLiving,
-                    admissionRequirement: res[i].admissionRequirement,
-                    grossTuition: res[i].grossTuition,
-                 
-                })
-            }
-            await University.insertMany(universityList)
-
-        })
-        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {}, 'Successfully CSV File Store Into Database');
-
+        let universityList = [];
+        // Parse CSV file
+        const res = await csv().fromFile(req.file.path);
+        // Process CSV data
+        for (let i = 0; i < res.length; i++) {
+            universityList.push({
+                universityName: res[i].universityName ,
+                country: res[i].country,
+                campus: res[i].campus.split(','),
+                ranking: res[i].ranking,
+                applicationFees: res[i].applicationFees,
+                averageFees: res[i].averageFees,
+                popularCategories: res[i].popularCategories.split(','),
+                offerTAT: res[i].offerTAT,
+                founded: res[i].founded,
+                institutionType: res[i].institutionType,
+                costOfLiving: res[i].costOfLiving,
+                admissionRequirement: res[i].admissionRequirement,
+                grossTuition: res[i].grossTuition,
+            });
+        }
+        // Insert into the database
+        await University.insertMany(universityList);
+        // Send success response
+        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {universityList}, 'Successfully CSV File Store Into Database');
     } catch (err) {
-        response(req, res, activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, errorMessage.internalServer, err.message);
+        console.error(err);
+        // Send error response
+        response(req, res,activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, 'Internal Server Error', err.message);
     }
-
-}
-
+};
 
 
 

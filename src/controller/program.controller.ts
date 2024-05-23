@@ -257,37 +257,33 @@ export let getFilteredProgramForAppliedStudent = async (req, res, next) => {
 
 
 export const csvToJson = async (req, res) => {
-
     try {
-        let programList = []
-
-        csv().fromFile(req.file.path).then(async (res) => {
-            for (let i = 0; i < res.length; i++) {
-                programList.push({
-                    universityName: res[i].UniversityName,
-                    campus: res[i].Campus,
-                    applicationFee: res[i].ApplicationFee,
-                    country: res[i].Country
-                })
-            }
-            await Program.insertMany(programList)
-
-        })
-        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {}, 'Successfully CSV File Store Into Database');
-
+        let programList = [];
+        // Parse CSV file
+        const csvData = await csv().fromFile(req.file.path);
+        // Process CSV data
+        for (let i = 0; i < csvData.length; i++) {
+            programList.push({
+                universityName: csvData[i].UniversityName,
+                campus: csvData[i].Campus.split(','), // Split the campus string into an array
+                applicationFee: csvData[i].ApplicationFee,
+                country: csvData[i].Country
+            });
+        }
+        // Insert into the database
+        await Program.insertMany(programList);
+        // Send success response
+        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {programList}, 'Successfully CSV File Store Into Database');
     } catch (err) {
-        response(req, res, activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, errorMessage.internalServer, err.message);
+        console.error(err);
+        // Send error response
+        response(req, res,activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, 'Internal Server Error', err.message);
     }
-
-}
+};
 
 
 
 //////////////////////////////////////////////
-
-
-
-
 
 export const getProgramsByUniversityName = async (req, res,next) => {
     try {
