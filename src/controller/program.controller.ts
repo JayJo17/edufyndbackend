@@ -282,86 +282,17 @@ export const csvToJson = async (req, res) => {
 };
 
 
+/**
+ * @author Balan K K
+ * @date 23-05-2024
+ * @param {Object} req 
+ * @param {Object} res 
+ * @param {Function} next  
+ * @description This Function is used to filter the particular university details with that program detail
+ */
 
-//////////////////////////////////////////////
+export const getProgramsByUniversityName = async (req, res) => {
 
-export const getProgramsByUniversityName = async (req, res,next) => {
-    try {
-        const universityId = req.query.universityId;
-
-        if (!universityId) {
-            return res.status(400).json({
-                success: false,
-                message: 'University name is required'
-            });
-        }
-
-        console.log("jj",universityId)
-
-        // Aggregation pipeline
-        const aggregationPipeline = [
-       
-            {
-                $lookup: {
-                    from: 'universities',
-                    localField: 'universityId',
-                    foreignField: '_id',
-                    as: 'universityDetails'
-                }
-            },
-            //       {
-            //     $match: {
-            //         // universityName: "Vickram college of university"
-            //         // 'universityDetails.universityName': universityId,
-               
-            //         // 'universityDetails.isDeleted': false,
-            //         // 'universityDetails.status': 1,
-            //         // isDeleted: false,
-            //         // status: 1
-            //     }
-            // },
-            // {
-            //     $group: { _id: "$universityName" }
-            //  },
-            {
-                $project: {
-                    programTitle: 1,
-                    country:1,
-                    campus: 1,
-                    universityName: 1,
-                    'universityDetails.universityName': 1,
-                    'universityDetails.country': 1
-                }
-            }
-        ];
-
-        const programs = await Program.aggregate(aggregationPipeline);
-        console.log("lll", programs)
-
-        if (programs.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'No programs found for the given university namemmmm'
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            data: programs
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            success: false,
-            message: 'Server error'
-        });
-    }
-};
-
-
-
-
-export const getProgramsByUniversityNamee = async (req, res) => {
     try {
         const universityId = req.query.universityId;
 
@@ -372,51 +303,37 @@ export const getProgramsByUniversityNamee = async (req, res) => {
             });
         }
 
-        // Convert universityId to ObjectId if it's not already
-        const mongoose = require('mongoose');
-        const objectId = new mongoose.Types.ObjectId(universityId);
-console.log("aa", objectId)
-        // Aggregation pipeline
-        const aggregationPipeline = [
-            // {
-            //     $match: {
-            //         universityId: objectId,
-            //         // isDeleted: false,
-            //         // status: 1
-            //     }
-            // },
-            {
-                $lookup: {
-                    from: 'universities',
-                    localField: 'universityId',
-                    foreignField: '_id',
-                    as: 'universityDetails'
-                }
-            },
-            // { $unwind: '$universityDetails' },
-            {
-                $project: {
-                    programTitle: 1,
-                    campus: 1,
-                    'universityDetails.universityName': 1,
-                    'universityDetails.country': 1
-                }
-            }
-        ];
+        // Find the university by ID and populate its programs
+        const university = await University.findById(universityId).lean();
+ 
 
-        const programs = await Program.aggregate(aggregationPipeline);
-
-        if (programs.length === 0) {
+        if (!university) {
             return res.status(404).json({
                 success: false,
-                message: 'No programs found for the given university'
+                message: 'University not found'
             });
         }
+            
+        const programs = await Program.find({ universityId: university._id }).select('programTitle').lean();
+        const programTitles = programs.map(program => program.programTitle);
 
-        res.status(200).json({
+        const response = {
             success: true,
-            data: programs
-        });
+            data: {
+                universityDetails: {
+                    universityId: university._id.toString(),
+                    universityName: university.universityName,
+                    country: university.country,
+                    campus: university.campus,
+                },
+                programDetails: {
+                    programTitles: programTitles
+                }
+            }
+        };
+
+        res.status(200).json(response);
+
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -425,6 +342,3 @@ console.log("aa", objectId)
         });
     }
 };
-
-
-

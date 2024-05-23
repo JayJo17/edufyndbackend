@@ -12,6 +12,9 @@ import Program from './program.routes'
 import Applicant from './applicant.routes'
 import Contact from './contact.routes'
 import Client from './client.routes'
+import Staff from './staff.routes'
+
+
 
 
 router.use('/superadmin', SuperAdmin)
@@ -24,6 +27,7 @@ router.use('/program', Program)
 router.use('/applicant', Applicant)
 router.use('/contact', Contact)
 router.use('/client', Client)
+router.use('/staff', Staff)
 
 
 

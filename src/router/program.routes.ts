@@ -1,8 +1,7 @@
 import {Router} from 'express';
 import {getAllProgram, getSingleProgram, createProgram,updateProgram, deleteProgram, 
     getFilteredProgram, getFilteredProgramForAppliedStudent, csvToJson, 
-    getAllProgramForWeb, getProgramsByUniversityName,
-    getProgramsByUniversityNamee} from '../controller/program.controller';
+    getAllProgramForWeb, getProgramsByUniversityName} from '../controller/program.controller';
 import { checkQuery, checkRequestBodyParams} from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
@@ -71,26 +70,10 @@ router.post('/import',      // CSV File to json and Store into Database
     csvToJson
 );
 
-
-
-/////////////
-
-
-router.get('/',            
-  
+router.get('/getprogrambyuniversity',    /// Get university details with that university program          
     checkQuery('universityId'),
-    // getProgramsByUniversityName,
-    getProgramsByUniversityNamee
-  
-    
+    getProgramsByUniversityName   
 );
 
-
-
-// router.get('/b', // get single product
-  
-//     checkQuery('universityId'),
-//     getSingleUniversityForProgram
-// );
 
 export default router
