@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { getAllUniversity, getSingleUniversity, saveUniversity, updateUniversity, deleteUniversity, getFilteredUniversity,
      csvToJson, getFilteredUniversityForAgent, getFilteredUniversityForStudent, getAllUniversityForWeb, 
-     universityLogo} from '../controller/university.controller';
+     universityLogo, getUniversityWithProgramDetails} from '../controller/university.controller';
 import { checkQuery, checkRequestBodyParams } from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
 import upload from '../utils/fileUploaded';
+;
 const router: Router = Router();
 
 
@@ -87,6 +88,12 @@ router.post('/import',      // CSV File to json and Store into Database
     csvToJson
 );
 
+////////
 
+
+router.get('/getprogrambyuniversity',    /// Get university details with that university program          
+    checkQuery('universityId'),
+    getUniversityWithProgramDetails  
+);
 
 export default router

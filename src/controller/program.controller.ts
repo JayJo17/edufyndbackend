@@ -291,61 +291,6 @@ export const csvToJson = async (req, res) => {
  * @description This Function is used to filter the particular university details with that program detail
  */
 
-// export const getProgramsByUniversityName = async (req, res) => {
-
-//     try {
-//         const universityId = req.query.universityId;
-
-//         if (!universityId) {
-//             return res.status(400).json({success: false,message: 'University ID is required'});
-//         }
-//         // Find the university by ID and populate its programs
-//         const university = await University.findById(universityId).lean();
-
-//         if (!university) {
-//             return res.status(404).json({success: false,message: 'University not found'});
-//         }
-            
-//         const programs = await Program.find({ universityId: university._id }).select('programTitle courseType inTake courseFee').lean();
-   
-//         const programTitles = programs.map(program => program.programTitle);
-//         const courseTypes = programs.map(program => program.courseType);
-//         const inTakes = programs.map(program => program.inTake);
-//         const courseFees = programs.map(program => program.courseFee);
-      
-
-//         const response = {
-//             success: true,
-//             data: {
-//                 universityDetails: {
-//                     universityId: university._id.toString(),
-//                     universityName: university.universityName,
-//                     universityLogo: university.universityLogo,
-//                     country: university.country,
-//                     campus: university.campus,
-//                 },
-//                 programDetails: {
-//                     programTitles: programTitles,
-//                     courseTypes: courseTypes,
-//                     inTakes: inTakes,
-//                     courseFees: courseFees
-                 
-//                 }
-//             }
-//         };
-
-//         res.status(200).json(response);
-
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({success: false,message: 'Server error'});
-//     }
-// };
-
-
-/////////////////////
-
-
 
 
 export const getProgramsByUniversityName = async (req, res) => {
@@ -353,19 +298,13 @@ export const getProgramsByUniversityName = async (req, res) => {
         const universityId = req.query.universityId;
 
         if (!universityId) {
-            return res.status(400).json({
-                success: false,
-                message: 'University ID is required'
-            });
+            return res.status(400).json({success: false,message: 'University ID is required'});
         }
 
         const university = await University.findById(universityId).lean();
 
         if (!university) {
-            return res.status(404).json({
-                success: false,
-                message: 'University not found'
-            });
+            return res.status(404).json({success: false,message: 'University not found'});
         }
 
         const programs = await Program.find({ universityId: university._id })
@@ -394,9 +333,8 @@ export const getProgramsByUniversityName = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: 'Server error'
-        });
+        res.status(500).json({success: false,message: 'Server error'});
     }
 };
+
+
