@@ -365,16 +365,14 @@ export const getUniversityWithProgramDetails = async (req, res) => {
         console.log(typeof universityId)
 
         if (!universityId) {
-            return res.status(400).json({
-                success: false,
-                message: 'University ID is required'
-            });
+            return res.status(400).json({ success: false, message: 'University ID is required' });
         }
 
         const aggregationPipeline = [
             {
                 $match: { _id: universityId }
             },
+       
             {
                 $lookup: {
                     from: 'programs',
@@ -383,14 +381,13 @@ export const getUniversityWithProgramDetails = async (req, res) => {
                     as: 'programDetails'
                 }
             },
-           
+         
             {
                 $project: {
                     _id: 1,
                     universityName: 1,
                     universityLogo: 1,
                     country: 1,
-                  
                     programDetails: {
                         programTitle: 1,
                         courseType: 1,
@@ -399,19 +396,17 @@ export const getUniversityWithProgramDetails = async (req, res) => {
                         campus: 1,
                     }
                 }
-            }
+            },
+           
         ];
 
         const result = await University.aggregate(aggregationPipeline);
-// console.log("bb", result)
+
         if (result.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'University not found'
-            });
+            return res.status(404).json({success: false,message: 'University not found'});
         }
         const university = result[0];
-        // console.log("////", university)
+     
         const response = {
             success: true,
             data: {
@@ -436,9 +431,6 @@ export const getUniversityWithProgramDetails = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            success: false,
-            message: 'Server error'
-        });
+        res.status(500).json({success: false,message: 'Server error'});
     }
 };

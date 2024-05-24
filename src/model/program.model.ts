@@ -7,13 +7,13 @@ export interface ProgramDocument extends mongoose.Document {
     universityId?: any;
     universityName?: string;
     country?: string;
-    courseType?: string;
+    courseType?: any[];
     programTitle?: string;
     applicationFee?: string;
     currency?: string;
     flag?: string;
     discountedValue?: string;
-    campus?: string;
+    campus?: any[];
     courseFees?: string;
     inTake?: string;
     duration?: string;
@@ -34,7 +34,7 @@ const programSchema = new mongoose.Schema({
     universityId: { type: mongoose.Types.ObjectId, ref: 'University' },
     universityName: { type: String }, // (List Universities added)
     country: {type: String},
-    courseType: { type: String },  // (List) Add, Delete, View, Edit
+    courseType: [String],  // (List) Add, Delete, View, Edit
     programTitle: {type: String},
     applicationFee: { type: String },
     currency: { type: String },
