@@ -13,6 +13,7 @@ import Applicant from './applicant.routes'
 import Contact from './contact.routes'
 import Client from './client.routes'
 import Staff from './staff.routes'
+import User from './user.routes'
 
 
 
@@ -28,6 +29,7 @@ router.use('/applicant', Applicant)
 router.use('/contact', Contact)
 router.use('/client', Client)
 router.use('/staff', Staff)
+router.use('/user', User)
 
 
 
