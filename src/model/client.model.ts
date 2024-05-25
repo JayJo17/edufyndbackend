@@ -22,6 +22,7 @@ export interface ClientDocument extends mongoose.Document {
 const clientSchema = new mongoose.Schema({
     _id: { type: mongoose.Types.ObjectId, auto: true },
     clientID: { type: String },
+    clientName: {type: String},
     typeOfClient: { type: String },  // - Institution, Financial Institution, Other Service Provider
     businessName: { type: String },
     businessMailID: { type: String },
@@ -31,7 +32,10 @@ const clientSchema = new mongoose.Schema({
     name: { type: String },
     contactNo: { type: String },
     emailID: { type: String },
-    address: { type: String },    // Street Address, City, State, Postal Code, Country
+    addressLine1: { type: String },    // Street Address, City, State, Postal Code, Country
+    addressLine2: { type: String },
+    state: { type: String },
+    addressLine1: { type: String },
     gstn: { type: String },
     status: { type: String }     // (Active/Inactive)
 
