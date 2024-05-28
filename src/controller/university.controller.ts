@@ -333,10 +333,12 @@ export const csvToJson = async (req, res) => {
         for (let i = 0; i < res.length; i++) {
             universityList.push({
                 universityName: res[i].universityName,
-                universityLogo: { type: String },
+                universityLogo:res[i].,
+                businessName: res[i].,
+                banner: res[i].,
                 country: res[i].country,
-                countryName: { type: String },
-                email: { type: String },
+                countryName: res[i].,
+                email: res[i].,
                
               
                 campus: res[i].campus.split(','),
@@ -350,10 +352,6 @@ export const csvToJson = async (req, res) => {
                 costOfLiving: res[i].costOfLiving,
                 admissionRequirement: res[i].admissionRequirement,
                 grossTuition: res[i].grossTuition,
-
-
-              
-              
                 flag: { type: String },
                 inTake: [String],
 
@@ -366,8 +364,7 @@ export const csvToJson = async (req, res) => {
                 tax: { type: String },
                 commissionPaidOn: { type: String },
               
-                businessName: { type: String },
-                banner: { type: String },
+                
               
             });
         }

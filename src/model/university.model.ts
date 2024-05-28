@@ -65,7 +65,7 @@ const universitySchema = new mongoose.Schema({
     applicationFees: { type: String },
     costOfLiving: { type: String },
     grossTuition: { type: String },
-    businessName: { type: String },
+    businessName: { type: String },      // Client Name
     banner: {type: String},
     universityLogo: { type: String },
 })
