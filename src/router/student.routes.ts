@@ -4,6 +4,7 @@ import { createContact} from '../controller/contact.controller';
 import { checkQuery, checkRequestBodyParams } from '../middleware/Validators';
 import { basicAuthUser } from '../middleware/checkAuth';
 import { checkSession } from '../utils/tokenManager';
+import upload from '../utils/fileUploaded';
 const router:Router=Router();
 
 
@@ -26,6 +27,10 @@ router.post('/',
          checkRequestBodyParams('email'),
         saveStudent
 );
+
+
+
+
 router.post('/contact', createContact);
 
 

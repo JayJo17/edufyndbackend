@@ -23,7 +23,12 @@ export interface AgentDocument extends mongoose.Document {
 
 };
 
+  // Two field can be disabled must be enabled
+   //•Agent ID (Auto Generated)
+   //  agentPayout: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AgentPayout' }],
 
+
+   
 const agentSchema = new mongoose.Schema({
      //•Agent ID (Auto Generated)
      _id: { type: mongoose.Types.ObjectId, required: true, auto: true },
@@ -38,7 +43,7 @@ const agentSchema = new mongoose.Schema({
                }],
      email: { type: String, required: true},
      mobileNumber: {type: String, required: true},
-     whatsAppNumber: {type: String},
+    whatsAppNumber: {type: String},
      bankDetail: {type: String },
      panNumberIndividual: { type: String },
      panNumberCompany: { type: String},   //(if applicable)
@@ -48,7 +53,7 @@ const agentSchema = new mongoose.Schema({
          name: { type: String },
          contactNumber: { type: String }
                }],
-   //agentPayout: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AgentPayout' }],//•Agent payout (List, Add, Edit, Delete)
+     // agentPayout: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AgentPayout' }],//•Agent payout (List, Add, Edit, Delete)
      agentsCommission: {type: Number},  // (Will be calculated based on the University Commission & Agent Payout) Decimal value to the nearest – To be viewed only for agents
      agentBusinessLogo: {type: String},  // (Optional)
      countryInterested: {type: String},
@@ -56,4 +61,5 @@ const agentSchema = new mongoose.Schema({
      confirmPassword:  {type: String}
 })
 
-export const Agent = mongoose.model("Agent", agentSchema);
+
+export const Agent = mongoose.model("Agent", agentSchema)

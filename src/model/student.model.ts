@@ -66,9 +66,9 @@ const studentSchema =new mongoose.Schema({
     percentage: {type: String },
     doHaveAnyEnglishLanguageTest: {type: String},
     englishTestType: { type: String},
-      testScore: {type: String},
-      dateOfTest: {type: String},
-      country:[{
+    testScore: {type: String},
+    dateOfTest: {type: String},
+    country:[{
         label: {type: String}, 
         value: {type: String}
     }],

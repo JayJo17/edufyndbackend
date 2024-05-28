@@ -1,4 +1,8 @@
-
+/**
+ * @author Balan K K
+ * @date  01-05-2024
+ * @description Authentication Methods
+ */
 
 
 import * as auth from 'basic-auth';
@@ -20,3 +24,4 @@ export let basicAuthUser = function (req, res, next) {
         next();
     }
 }
+
