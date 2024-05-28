@@ -24,17 +24,14 @@ export interface StudentDocument extends mongoose.Document {
     englishTestType?: any[]; // Only sEnglishLanguageTest is true
     testScore?: number; // Only sEnglishLanguageTest is true
     dateOfTest?: Date; // Only sEnglishLanguageTest is true
-    country?: string[];
+    country?: string;
     desiredUniversity?: string;
     desiredCourse?: string;
     workExperience?: number; // In years
-
     anyVisaRejections?: string; // Only sVisaRejections is true
     visaReason?: string;
-   
     doYouHaveTravelHistory?: string; // Only sTravelHistory is true
     travelReason?: string;
-   
     finance?: any[];
     password?: string;
     confirmPassword?: string;
@@ -51,6 +48,7 @@ const studentSchema =new mongoose.Schema({
     _id: { type: mongoose.Types.ObjectId, auto: true },
     studentCode : {type: String},
     source: { type: String},
+   
     name: {type: String},
     passportNo: {type: String},
     expiryDate: {type: String},
@@ -68,9 +66,9 @@ const studentSchema =new mongoose.Schema({
     percentage: {type: String },
     doHaveAnyEnglishLanguageTest: {type: String},
     englishTestType: { type: String},
-    testScore: {type: String},
-    dateOfTest: {type: String},
-    country:[{
+      testScore: {type: String},
+      dateOfTest: {type: String},
+      country:[{
         label: {type: String}, 
         value: {type: String}
     }],

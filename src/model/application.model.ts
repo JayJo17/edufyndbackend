@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose'
 export interface ApplicantDocument extends mongoose.Document {
     applicationCode?: string //(Student Code / Number Series)
     studentName?: string,        //(Auto Fetch from Students)
-    dob?: string,             //(Auto Fetch from Students)
+    dob?: Date,             //(Auto Fetch from Students)
     passportNo?: string,       // (Auto Fetch from Students)
     email?: string,         //(Auto Fetch from Students)
     primaryNumber?: string,
@@ -20,7 +20,7 @@ const applicantSchema = new mongoose.Schema({
     applicationCode: {type: String},    
     studentID: { type: mongoose.Types.ObjectId, ref: 'Student' }, 
     universityID : { type: mongoose.Types.ObjectId, ref: 'University' },       
-    dob:{ type: String, ref: 'Student' },              
+    dob:{ type: Date, ref: 'Student' },              
     passportNo: { type: String, ref: 'Student' },      
     email:{ type: String, ref: 'Student' },       
     primaryNumber: { type: String, ref: 'Student' }, 
@@ -28,12 +28,10 @@ const applicantSchema = new mongoose.Schema({
     selectCourse: {
         inTake: {type: String},
         universityID : { type: mongoose.Types.ObjectId, ref: 'University' }, 
-        course: {type: String},
-        courseFees: {type: String}        // (Auto fetch from Program)
     },
     anyVisaRejections: { type: String, ref: 'Student' }, 
     feesPaid: {type: String},
-    assignTo: {type: String}
+    //  assignTo?: string
 })
 
 export const Applicant = mongoose.model("Applicant", applicantSchema)

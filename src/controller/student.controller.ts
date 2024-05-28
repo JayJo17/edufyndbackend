@@ -39,7 +39,8 @@ export let saveStudent = async (req, res, next) => {
                 req.body.password = await encrypt(req.body.password)
                 req.body.confirmPassword = await encrypt(req.body.confirmPassword)
                 const studentDetails: StudentDocument = req.body;
-
+                const uniqueId = Math.floor(Math.random() * 10000);
+                studentDetails.studentCode = studentDetails.name + "_"+ uniqueId;
                 const createData = new Student(studentDetails);
                 let insertData = await createData.save();
                 const token = await TokenManager.CreateJWTToken({
@@ -121,18 +122,20 @@ export let updateStudent = async (req, res, next) => {
 }
 
 
+
+
+
+
+
 export let deleteStudent = async (req, res, next) => {
   
     try {
         let id = req.query._id;
         const student = await Student.findByIdAndDelete({ _id: id })
-      
+        // const notification = await Notification.deleteMany({ $or: [{ to: id }, { from: id }] })
         response(req, res, activity, 'Level-2', 'Delete-Student', true, 200, student, 'Successfully Remove User');
     }
     catch (err: any) {
         response(req, res, activity, 'Level-3', 'Delete-Student', false, 500, {}, errorMessage.internalServer, err.message);
     }
 };
-
-
-

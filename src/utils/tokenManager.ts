@@ -4,17 +4,29 @@ import { clientError, errorMessage } from '../helper/ErrorMessage';
 const activity = 'token';
 
 /**
- * @author Balan K K
- * @date 01-05-2024
+
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
  * @description This Function is used to token creation
  */
 
+// export let CreateJWTToken = (data: any = {}) => {
+//     let tokenData = {};
+//     if (data && data['companyName']) {
+//         tokenData['companyName'] = data['companyName']
+//     }
+//     if (data && data['companyId']) {
+//         tokenData['companyId'] = data['companyId']
+//     }
+  
+//     const token = jwt.sign(tokenData, 'pixaliveworks', { expiresIn: '8h' });
+//     return token;
+// }
+
 
 export let CreateJWTToken = (data: any = {}) => {
-
+    console.log("jwttokkkken", data)
     let tokenData = {};
     if (data && data['name']) {
         tokenData['name'] = data['name']
@@ -33,8 +45,7 @@ export let CreateJWTToken = (data: any = {}) => {
 
 
 /**
- * @author Ponjothi S
- * @date 07-09-2023
+
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next  
@@ -45,7 +56,7 @@ export let checkSession = async (req, res, next) => {
     console.log("token", token)
     if (token) {
         const headerType = token.split(' ')[0];
-  
+        console.log("kljh",headerType)
         const tokenValue = token.split(' ')[1].trim();
         if (headerType.trim() === "Bearer") {
             try {

@@ -4,7 +4,7 @@ var nodemailer = require('nodemailer');
 
 
 /**
- * @param res {Function} Response 
+
  * @param success {Boolean} Http Status Code for the response
  * @param result {Object/Array} Result for the Response
  * @param message {string} Primary message for the response

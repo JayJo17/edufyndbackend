@@ -28,14 +28,15 @@ const clientSchema = new mongoose.Schema({
     businessMailID: { type: String },
     businessContactNo: { type: String },
     website: { type: String },
-    staff: { type: String },
+    addressLine1: { type: String },
+    addressLine2: { type: String },
+    addressLine3: { type: String },
     name: { type: String },
     contactNo: { type: String },
     emailID: { type: String },
-    addressLine1: { type: String },    // Street Address, City, State, Postal Code, Country
-    addressLine2: { type: String },
+  
     state: { type: String },
-    addressLine1: { type: String },
+ 
     gstn: { type: String },
     status: { type: String }     // (Active/Inactive)
 

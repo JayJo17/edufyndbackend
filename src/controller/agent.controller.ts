@@ -55,7 +55,6 @@ export let createAgent = async (req, res, next) => {
                 finalResult["token"] = token;
                 finalResult["loginType"] = 'agent';
                 finalResult["agentDetails"] = result;
-
                 response(req, res, activity, 'Level-2', 'Create-Agent', true, 200, finalResult, clientError.success.registerSuccessfully);
             }
             else {

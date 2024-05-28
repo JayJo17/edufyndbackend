@@ -42,7 +42,7 @@ export let createAdmin = async (req, res, next) => {
                 const adminDetails: AdminDocument = req.body;
                 const uniqueId = Math.floor(Math.random() * 1000)
                 adminDetails.adminCode = "AD" + uniqueId + "Fynd"
-                
+             
                 const createData = new Admin(adminDetails);
                 let insertData = await createData.save();
                 const token = await TokenManager.CreateJWTToken({
