@@ -111,8 +111,10 @@ export let updateClient = async (req, res, next) => {
                     name:clientDetails.name,
                     contactNo: clientDetails.contactNo,
                     emailID: clientDetails.emailID,
-                   
                     status: clientDetails.status,
+                    privileges: clientDetails.privileges,
+                    modifiedOn: clientDetails.modifiedOn,
+                    modifiedBy:  clientDetails.modifiedBy,
                 }
             });
 

@@ -90,7 +90,11 @@ export let updateAgent = async (req, res, next) => {
                     inc: agentDetails.inc,
                     agentsCommission: agentDetails.agentsCommission,
                     agentBusinessLogo: agentDetails.agentBusinessLogo,
-                    countryInterested: agentDetails.countryInterested
+                    countryInterested: agentDetails.countryInterested,
+                    privileges: agentDetails.privileges,
+                    status:  agentDetails.status,
+                    modifiedOn: agentDetails.modifiedOn,
+                    modifiedBy:  agentDetails.modifiedBy,
                 },
                 $addToSet: {
                     address: agentDetails.address,

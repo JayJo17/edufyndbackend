@@ -65,7 +65,10 @@ export const updateStaff = async (req, res) => {
                     idCard: staffDetails.idCard,                  
                     manageApplications:staffDetails.manageApplications,         
                     activeInactive: staffDetails.activeInactive,             
-                    teamLead: staffDetails.teamLead
+                    teamLead: staffDetails.teamLead,
+                    status:  staffDetails.status,
+                    modifiedOn: staffDetails.modifiedOn,
+                    modifiedBy:  staffDetails.modifiedBy,
                 }
             });
 

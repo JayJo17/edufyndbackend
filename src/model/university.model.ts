@@ -13,17 +13,13 @@ export interface UniversityDocument extends mongoose.Document {
     countryName?: string; // Country
     country?: string;
     flag?: string;
-    campus?: String;
+    campus?: any[];
     ranking?: string; // Ranking (Optional)
     averageFees?: number; // Average Fees
-    popularCategories?: string; // Popular Categories (Multiple)
+    popularCategories?: any[]; // Popular Categories (Multiple)
     admissionRequirement?: string; // Admission Requirement (Text box)
     offerTAT?: string; // Offer TAT
-    inTake?: string;
-    spring?: string;
-    summer?: string;
-    winter?: string;
-    fall?: string;
+    inTake?: any[];
     paymentMethod?: string;
     amount?: string;
     percentage?: string;
@@ -56,11 +52,6 @@ const universitySchema = new mongoose.Schema({
     popularCategories: [ String ],
     admissionRequirement: { type: String },
     offerTAT: { type: String },
-    inTake: {type: String},
-    spring: {type: String},
-    summer: {type: String},
-    winter: {type: String},
-    fall: {type: String},
     paymentMethod: { type: String, },
     amount: { type: String },
     percentage: { type: String },

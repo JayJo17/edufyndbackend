@@ -12,7 +12,13 @@ export interface ApplicantDocument extends mongoose.Document {
     selectCourse?: any,
     anyVisaRejections?: string,  // (Auto Fetch from Students)
     feesPaid?: string,
-    assignTo?: string
+    assignTo?: string,
+    isDeleted?: boolean;
+    status?: string;
+    createdOn?: Date;
+    createdBy?: string;
+    modifiedOn?: Date;
+    modifiedBy?: string;
 }
 
 
@@ -33,7 +39,13 @@ const applicantSchema = new mongoose.Schema({
     },
     anyVisaRejections: { type: String, ref: 'Student' }, 
     feesPaid: {type: String},
-    assignTo: {type: String}
+    assignTo: {type: String},
+    isDeleted: { type: Boolean, default: false },
+    status: { type: String },
+    createdOn: { type: Date },
+    createdBy: { type: String },
+    modifiedOn: { type: Date },
+    modifiedBy: { type: String },
 })
 
 export const Applicant = mongoose.model("Applicant", applicantSchema)

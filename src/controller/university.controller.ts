@@ -59,7 +59,7 @@ export let updateUniversity = async (req, res, next) => {
             let universityData = await University.findByIdAndUpdate({ _id: universityDetails._id }, {
                 $set: {
                     universityName: universityDetails.universityName,
-                    businessName:universityDetails.businessName,
+                    businessName: universityDetails.businessName,
                     banner: universityDetails.banner,
                     universityLogo: universityDetails.universityLogo,
                     countryName: universityDetails.countryName,
@@ -71,11 +71,6 @@ export let updateUniversity = async (req, res, next) => {
                     popularCategories: universityDetails.popularCategories,
                     admissionRequirement: universityDetails.admissionRequirement,
                     offerTAT: universityDetails.offerTAT,
-                    inTake:  universityDetails.inTake,
-                    spring: universityDetails.spring,
-                    summer:  universityDetails.summer,
-                    winter: universityDetails.winter,
-                    fall:  universityDetails.fall,
                     founded: universityDetails.founded,
                     institutionType: universityDetails.institutionType,
                     applicationFees: universityDetails.applicationFees,
@@ -199,7 +194,7 @@ export let getFilteredUniversity = async (req, res, next) => {
             andList.push({ ranking: req.body.ranking })
         }
         if (req.body.popularCategories) {
-            andList.push({popularCategories: req.body.popularCategories })
+            andList.push({ popularCategories: req.body.popularCategories })
         }
         findQuery = (andList.length > 0) ? { $and: andList } : {}
 
@@ -295,7 +290,7 @@ export let getFilteredUniversityForStudent = async (req, res, next) => {
             andList.push({ universityName: req.body.universityName })
         }
         if (req.body.clientName) {
-            andList.push({clientName: req.body.clientName })
+            andList.push({ clientName: req.body.clientName })
         }
         if (req.body.country) {
             andList.push({ country: req.body.country })
@@ -337,8 +332,13 @@ export const csvToJson = async (req, res) => {
         // Process CSV data
         for (let i = 0; i < res.length; i++) {
             universityList.push({
-                universityName: res[i].universityName ,
+                universityName: res[i].universityName,
+                universityLogo: { type: String },
                 country: res[i].country,
+                countryName: { type: String },
+                email: { type: String },
+               
+              
                 campus: res[i].campus.split(','),
                 ranking: res[i].ranking,
                 applicationFees: res[i].applicationFees,
@@ -350,16 +350,35 @@ export const csvToJson = async (req, res) => {
                 costOfLiving: res[i].costOfLiving,
                 admissionRequirement: res[i].admissionRequirement,
                 grossTuition: res[i].grossTuition,
+
+
+              
+              
+                flag: { type: String },
+                inTake: [String],
+
+                paymentMethod: { type: String, },
+                amount: { type: String },
+                percentage: { type: String },
+                eligibilityForCommission: { type: String },
+                currency: { type: String },
+                paymentTAT: { type: String },
+                tax: { type: String },
+                commissionPaidOn: { type: String },
+              
+                businessName: { type: String },
+                banner: { type: String },
+              
             });
         }
         // Insert into the database
         await University.insertMany(universityList);
         // Send success response
-        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, {universityList}, 'Successfully CSV File Store Into Database');
+        response(req, res, activity, 'Level-1', 'CSV-File-Insert-Database', true, 200, { universityList }, 'Successfully CSV File Store Into Database');
     } catch (err) {
         console.error(err);
         // Send error response
-        response(req, res,activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, 'Internal Server Error', err.message);
+        response(req, res, activity, 'Level-3', 'CSV-File-Insert-Database', false, 500, {}, 'Internal Server Error', err.message);
     }
 };
 
@@ -382,7 +401,7 @@ export const getUniversityWithProgramDetails = async (req, res) => {
             {
                 $match: { _id: universityId }
             },
-       
+
             {
                 $lookup: {
                     from: 'programs',
@@ -391,7 +410,7 @@ export const getUniversityWithProgramDetails = async (req, res) => {
                     as: 'programDetails'
                 }
             },
-         
+
             {
                 $project: {
                     _id: 1,
@@ -407,16 +426,16 @@ export const getUniversityWithProgramDetails = async (req, res) => {
                     }
                 }
             },
-           
+
         ];
 
         const result = await University.aggregate(aggregationPipeline);
 
         if (result.length === 0) {
-            return res.status(404).json({success: false,message: 'University not found'});
+            return res.status(404).json({ success: false, message: 'University not found' });
         }
         const university = result[0];
-     
+
         const response = {
             success: true,
             data: {
@@ -441,6 +460,6 @@ export const getUniversityWithProgramDetails = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({success: false,message: 'Server error'});
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 };

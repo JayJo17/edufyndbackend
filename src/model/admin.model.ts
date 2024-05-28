@@ -9,6 +9,13 @@ export interface AdminDocument extends mongoose.Document{
     password?: string;
     confirmPassword?: string;
     role?:string;
+    isDeleted?: boolean;
+    status?: string;
+    privileges?: string;
+    createdOn?: Date;
+    createdBy?: string;
+    modifiedOn?: Date;
+    modifiedBy?: string;
 }
 
 
@@ -19,7 +26,14 @@ const adminSchema = new mongoose.Schema({
     mobileNumber: {type: String},
     password: {type: String},
     confirmPassword: {type: String},
-    role: {type: String}
+    role: {type: String},
+    isDeleted: { type: Boolean, default: false },
+    privileges: {type: String},
+    status: { type: String },
+    createdOn: { type: Date },
+    createdBy: { type: String },
+    modifiedOn: { type: Date },
+    modifiedBy: { type: String },
 })
 
 export const Admin = mongoose.model("Admin", adminSchema)

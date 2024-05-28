@@ -18,12 +18,18 @@ export interface StaffDocument extends mongoose.Document {
     emergencyContactNo?: string;
     probationDuration?: string;
     salary?: string    // (Break Up with deduction – Manual)
-    privileges?: string;   //(To be assigned by Super Admin) 
     idCard?: boolean;    // – Yes / No (If ‘Yes’ card to be generated)
     manageApplications?: string;   // Yes/No
     //If Yes, List Country & University The user can only handle applications of these universities and country
     activeInactive?: boolean    // – User
     teamLead?: string;     // – Select Employees and permission to be viewed.
+    isDeleted?: boolean;
+    status?: string;
+    privileges?: string;
+    createdOn?: Date;
+    createdBy?: string;
+    modifiedOn?: Date;
+    modifiedBy?: string;
 }
 
 const staffSchema = new mongoose.Schema({
@@ -42,12 +48,18 @@ const staffSchema = new mongoose.Schema({
     mobileNumber: {type: String},
     emergencyContactNo: {type: String},
     probationDuration: {type: String},
-    salary: {type: String},               // (Break Up with deduction – Manual)
-    privileges: {type: String},                 //(To be assigned by Super Admin) 
+    salary: {type: String},               // (Break Up with deduction – Manual)        
     idCard: {type: String},                     // – Yes / No (If ‘Yes’ card to be generated)
     manageApplications: {type: String},           // Yes/No    //If Yes, List Country & University The user can only handle applications of these universities and country
     activeInactive: {type: String},                // – User
-    teamLead: {type: String}     // – Select Employees and permission to be viewed.
+    teamLead: {type: String},     // – Select Employees and permission to be viewed.
+    isDeleted: { type: Boolean, default: false },
+    status: { type: Number, default: 1 },
+    privileges: {type: String},  //(To be assigned by Super Admin) 
+    createdOn: { type: Date },
+    createdBy: { type: String },
+    modifiedOn: { type: Date },
+    modifiedBy: { type: String },
 
 })
 export const Staff = mongoose.model('Staff', staffSchema)

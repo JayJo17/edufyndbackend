@@ -88,7 +88,9 @@ export let updateProgram = async (req, res, next) => {
                     universityInterview: programDetails.universityInterview,
                     greGmatRequirement: programDetails.greGmatRequirement,
                     academicRequirement: programDetails.academicRequirement,
-                    commission: programDetails.commission
+                    commission: programDetails.commission,
+                    modifiedOn: programDetails.modifiedOn,
+                    modifiedBy:  programDetails.modifiedBy,
                 },
 
             })
@@ -259,9 +261,24 @@ export const csvToJson = async (req, res) => {
         for (let i = 0; i < csvData.length; i++) {
             programList.push({
                 universityName: csvData[i].UniversityName,
-                campus: csvData[i].Campus.split(','), // Split the campus string into an array
+                campus: csvData[i].Campus.split(','), 
                 applicationFee: csvData[i].ApplicationFee,
-                country: csvData[i].Country
+                country: csvData[i].Country,
+                courseType:  csvData[i].CampusourseType.split(','), 
+                programTitle:  csvData[i].ProgramTitle,
+                currency: csvData[i].Currency,
+                flag: csvData[i].Flag,
+                discountedValue: csvData[i].DiscountedValue,
+                courseFee: csvData[i].CourseFee, 
+                inTake: csvData[i].inTake.split(','),
+                duration: csvData[i].Duration,
+                englishlanguageTest:csvData[i].EnglishlanguageTest,
+                textBox: csvData[i].TextBox,
+                universityInterview : csvData[i].UniversityInterview,   
+                greGmatRequirement : csvData[i].GreGmatRequirement, 
+                score: csvData[i].Score,
+                academicRequirement : csvData[i].AcademicRequirement,    
+                commission: csvData[i].Commission,
             });
         }
         // Insert into the database

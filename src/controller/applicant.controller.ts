@@ -83,7 +83,10 @@ export let updateApplicant = async (req, res, next) => {
                    
                     anyVisaRejections: applicantDetails.anyVisaRejections,
                     feesPaid:applicantDetails.feesPaid,
-                    assignTo:applicantDetails.assignTo
+                    assignTo:applicantDetails.assignTo,
+                    status:  applicantDetails.status,
+                    modifiedOn: applicantDetails.modifiedOn,
+                    modifiedBy:  applicantDetails.modifiedBy,
                 }
             });
 
