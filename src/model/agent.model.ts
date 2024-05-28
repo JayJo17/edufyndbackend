@@ -21,7 +21,7 @@ export interface AgentDocument extends mongoose.Document {
     agentBusinessLogo?: string; // Optional
     countryInterested?: string[];
     isDeleted?: boolean;
-    status?: string;
+ 
     privileges?: string;
     createdOn?: Date;
     createdBy?: string;
@@ -68,7 +68,7 @@ const agentSchema = new mongoose.Schema({
      confirmPassword:  {type: String},
      isDeleted: { type: Boolean, default: false },
      privileges: {type: String},
-     status: { type: String },
+   
      createdOn: { type: Date },
      createdBy: { type: String },
      modifiedOn: { type: Date },

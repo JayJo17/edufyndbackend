@@ -92,7 +92,7 @@ export let updateAgent = async (req, res, next) => {
                     agentBusinessLogo: agentDetails.agentBusinessLogo,
                     countryInterested: agentDetails.countryInterested,
                     privileges: agentDetails.privileges,
-                    status:  agentDetails.status,
+               
                     modifiedOn: agentDetails.modifiedOn,
                     modifiedBy:  agentDetails.modifiedBy,
                 },

@@ -333,12 +333,12 @@ export const csvToJson = async (req, res) => {
         for (let i = 0; i < res.length; i++) {
             universityList.push({
                 universityName: res[i].universityName,
-                universityLogo:res[i].,
-                businessName: res[i].,
-                banner: res[i].,
+                universityLogo:res[i].universityLogo,
+                businessName: res[i].businessName,
+                banner: res[i].banner,
                 country: res[i].country,
-                countryName: res[i].,
-                email: res[i].,
+                countryName: res[i].countryName,
+                email: res[i].email,
                
               
                 campus: res[i].campus.split(','),
@@ -352,17 +352,17 @@ export const csvToJson = async (req, res) => {
                 costOfLiving: res[i].costOfLiving,
                 admissionRequirement: res[i].admissionRequirement,
                 grossTuition: res[i].grossTuition,
-                flag: { type: String },
-                inTake: [String],
+                flag: res[i].flag,
+                inTake:res[i].inTake,
 
-                paymentMethod: { type: String, },
-                amount: { type: String },
-                percentage: { type: String },
-                eligibilityForCommission: { type: String },
-                currency: { type: String },
-                paymentTAT: { type: String },
-                tax: { type: String },
-                commissionPaidOn: { type: String },
+                paymentMethod:res[i].paymentMethod,
+                amount:res[i].amount,
+                percentage: res[i].percentage,
+                eligibilityForCommission: res[i].eligibilityForCommission,
+                currency: res[i].currency,
+                paymentTAT: res[i].paymentTAT,
+                tax: res[i].tax,
+                commissionPaidOn: res[i].commissionPaidOn,
               
                 
               
